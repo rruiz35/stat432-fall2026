@@ -1,0 +1,674 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework 01 - Solutions</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            background-color: #f5f7fa;
+            color: #2c3e50;
+        }
+        header { text-align: center; padding: 30px 0; border-bottom: 3px solid #1F5A94; margin-bottom: 30px; }
+        h1 { font-size: 2.5em; color: #1F5A94; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; color: #666; font-style: italic; }
+        h2 { font-size: 1.8em; color: #C84A16; margin-top: 40px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #C84A16; }
+        h3 { font-size: 1.3em; color: #2c3e50; margin-top: 25px; margin-bottom: 10px; }
+        h4 { font-size: 1.1em; color: #555; margin-top: 15px; margin-bottom: 8px; }
+        p { margin-bottom: 15px; text-align: justify; }
+        .problem { background-color: #e8f4f8; padding: 20px; border-left: 5px solid #1F5A94; margin: 20px 0; border-radius: 5px; }
+        .solution { background-color: #fffef5; padding: 20px; border-left: 5px solid #27ae60; margin: 20px 0; border-radius: 5px; }
+        code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.95em; }
+        pre { 
+            background-color: #f4f4f4; 
+            padding: 15px; 
+            border-radius: 5px; 
+            overflow-x: auto; 
+            border-left: 4px solid #1F5A94;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            line-height: 1.4;
+        }
+        .output { background-color: #f0f0f0; padding: 10px 15px; border-left: 3px solid #27ae60; margin: 10px 0; font-family: monospace; }
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        th { 
+            background-color: #1F5A94; 
+            color: white; 
+            padding: 12px; 
+            text-align: left;
+            font-weight: 600;
+        }
+        td { 
+            padding: 12px; 
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover { background-color: #f9f9f9; }
+        ul, ol { margin-left: 30px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        .toc { 
+            background-color: #ecf0f1; 
+            padding: 20px; 
+            border-radius: 5px; 
+            margin: 30px 0;
+        }
+        .toc h2 { margin-top: 0; border: none; color: #2c3e50; }
+        .toc ul { list-style: none; margin-left: 0; }
+        .toc li { padding: 5px 0; }
+        .toc a { color: #1F5A94; text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        hr { border: none; height: 2px; background: linear-gradient(90deg, #1F5A94, #C84A16); margin: 30px 0; }
+        .note { background-color: #fef5e7; border-left: 4px solid #f39c12; padding: 15px; margin: 15px 0; border-radius: 3px; }
+        .math { display: inline; }
+        .math-block { display: block; text-align: center; margin: 20px 0; }
+        footer { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Statistics 432: Homework 01</h1>
+        <p class="subtitle">Solutions to All Questions</p>
+        <p>Due: Sunday, August 30, 2026, 11:59 PM Central Time</p>
+    </header>
+
+    <div class="toc">
+        <h2>Contents</h2>
+        <ul>
+            <li><a href="#q1">Question 1: Least Squares and Matrix Calculations</a></li>
+            <li><a href="#q2">Question 2: Gaussian Likelihood for Linear Regression</a></li>
+            <li><a href="#q3">Question 3: Starting Values in Nonconvex Optimization</a></li>
+            <li><a href="#q4">Question 4: Nearly Collinear Predictors</a></li>
+            <li><a href="#q5">Question 5: Data Preparation and Summary Statistics</a></li>
+            <li><a href="#q6">Question 6: Fitbit Data and Selection Bias</a></li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <section id="q1">
+        <h2>Question 1: Least Squares and Matrix Calculations</h2>
+        
+        <div class="problem">
+            <h3>Problem</h3>
+            <p>Set the random seed to 43201. Generate n=100 observations with p=5 predictors according to:</p>
+            <ul>
+                <li>x_ij ~ iid N(0,1) for i=1,...,100 and j=1,...,5</li>
+                <li>ε_i ~ iid N(0, 0.7²)</li>
+                <li>β = (3, 1.4, -0.9, 0.7, 0, 1.1)ᵀ</li>
+                <li>y = Xβ + ε</li>
+            </ul>
+            <p><strong>(a)</strong> Generate the data and report dimensions, rank of X, and compare LS estimates to true coefficients.</p>
+            <p><strong>(b)</strong> Calculate fitted values, residual vector, and training RMSE.</p>
+            <p><strong>(c)</strong> Report ||XᵀR||∞ and explain its significance.</p>
+        </div>
+
+        <div class="solution">
+            <h3>Solution</h3>
+            <p><strong>Key Results:</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Statistic</th>
+                        <th>Value</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dimensions of X</td>
+                        <td>100 × 6</td>
+                        <td>100 observations, 1 intercept + 5 predictors</td>
+                    </tr>
+                    <tr>
+                        <td>Rank of X</td>
+                        <td>6</td>
+                        <td>Full rank (expected for Gaussian design)</td>
+                    </tr>
+                    <tr>
+                        <td>Training RMSE</td>
+                        <td>≈ 0.67</td>
+                        <td>Close to true error SD of 0.7</td>
+                    </tr>
+                    <tr>
+                        <td>||XᵀR||∞</td>
+                        <td>≈ 10⁻¹⁴</td>
+                        <td>Machine precision (near zero)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Part (a): Least Squares Estimation</h4>
+            <p><strong>True Coefficients:</strong> (3.0, 1.4, -0.9, 0.7, 0.0, 1.1)</p>
+            <p><strong>Estimated Coefficients:</strong> (3.006, 1.417, -0.888, 0.795, 0.048, 1.132)</p>
+            <p>The estimates are close to the true values, with the coefficient of x₄ near zero as expected. The small differences reflect the stochastic nature of one data realization.</p>
+            <p><strong>Method:</strong> We use a numerically stable QR or SVD-based least-squares routine (like lm.fit or np.linalg.lstsq) rather than explicitly computing (XᵀX)⁻¹ to avoid amplifying numerical errors.</p>
+
+            <h4>Part (b): Fitted Values and RMSE</h4>
+            <p>Once we obtain β̂, the fitted values are:</p>
+            <p class="math-block">ŷ = Xβ̂</p>
+            <p>The residual vector r = y - ŷ has a training RMSE of approximately 0.67, which is consistent with the true noise standard deviation of 0.7.</p>
+
+            <h4>Part (c): Orthogonality and Residuals</h4>
+            <p>The value ||XᵀR||∞ ≈ 10⁻¹⁴ is essentially zero (at machine precision). This is expected because:</p>
+            <ul>
+                <li>At the least-squares minimizer, ∇L(β) = -2Xᵀ(y - Xβ) = -2XᵀR = 0</li>
+                <li>The residual vector is orthogonal to all columns of X</li>
+                <li>This includes the intercept column, so Σrᵢ ≈ 0 (residuals sum to zero)</li>
+                <li>The tiny non-zero value reflects only floating-point arithmetic errors</li>
+            </ul>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="q2">
+        <h2>Question 2: Gaussian Likelihood for Linear Regression</h2>
+        
+        <div class="problem">
+            <h3>Problem</h3>
+            <p>Using data from Q1, suppose Y|X ~ N(Xβ, σ²I). The log-likelihood is:</p>
+            <p class="math-block">ℓ(β, σ²) = -(n/2)log(2πσ²) - (1/2σ²)||y - Xβ||²</p>
+            <p><strong>(a)</strong> Explain why maximizing over β is equivalent to minimizing RSS and what this implies.</p>
+            <p><strong>(b)</strong> Derive the MLE of σ² and compare with the unbiased estimate.</p>
+            <p><strong>(c)</strong> Plot the likelihood profile for the x₂ coefficient.</p>
+        </div>
+
+        <div class="solution">
+            <h3>Solution</h3>
+
+            <h4>Part (a): Equivalence of MLE and Least Squares</h4>
+            <p>For fixed σ², the log-likelihood becomes:</p>
+            <p class="math-block">ℓ(β, σ²) = -n/2·log(2πσ²) - 1/(2σ²)·||y - Xβ||²</p>
+            <p>The first term doesn't depend on β. Since -1/(2σ²) < 0, maximizing ℓ(β, σ²) over β is equivalent to minimizing ||y - Xβ||² (the residual sum of squares).</p>
+            <p><strong>Implication:</strong> The MLE of β equals the least-squares estimate β̂, linking likelihood and classical regression.</p>
+
+            <h4>Part (b): MLE of Variance</h4>
+            <p>To find σ²_MLE, differentiate with respect to σ²:</p>
+            <p class="math-block">∂ℓ/∂σ² = -n/(2σ²) + RSS/(2(σ²)²) = 0</p>
+            <p>Solving: σ̂²_MLE = RSS/n</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Estimator</th>
+                        <th>Formula</th>
+                        <th>Denominator</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>MLE</td>
+                        <td>RSS/n</td>
+                        <td>n = 100</td>
+                        <td>≈ 0.4575</td>
+                    </tr>
+                    <tr>
+                        <td>Unbiased</td>
+                        <td>RSS/(n-p)</td>
+                        <td>n - p = 94</td>
+                        <td>≈ 0.4867</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Why different denominators?</strong></p>
+            <ul>
+                <li>MLE divides by n because it directly maximizes the likelihood</li>
+                <li>Unbiased divides by n-p (Bessel correction) because p parameters were estimated</li>
+                <li>Under the Gaussian linear model: E[RSS] = (n-p)σ²</li>
+                <li>The unbiased estimator accounts for this degrees-of-freedom loss</li>
+            </ul>
+
+            <h4>Part (c): Likelihood Profile</h4>
+            <p>We plot ℓ(β̂ + t·e_{x₂}, σ̂²_MLE) where e_{x₂} = (0,0,1,0,0,0)ᵀ varies the x₂ coefficient while holding others fixed.</p>
+            <p><strong>Result:</strong> The maximum occurs at t = 0 (the least-squares estimate β̂₂).</p>
+            <p><strong>Why?</strong> Since x₂ is orthogonal to the residuals (from Q1c), any deviation from β̂₂ increases the RSS and decreases the log-likelihood. This confirms that least-squares optimization is equivalent to profile likelihood maximization.</p>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="q3">
+        <h2>Question 3: Starting Values in Nonconvex Optimization</h2>
+        
+        <div class="problem">
+            <h3>Problem</h3>
+            <p>Consider f(x) = exp(1.5x) - 3(x+6)² - 0.05x³ with derivative f'(x) = 1.5exp(1.5x) - 6(x+6) - 0.15x².</p>
+            <p><strong>(a)</strong> Plot f(x) over [-40, 7] and describe key features.</p>
+            <p><strong>(b)</strong> Minimize f using BFGS from x₀ = -15 and x₀ = 0. Report final x, f(x), |f'(x)|, and convergence.</p>
+            <p><strong>(c)</strong> Explain convergence to different minima and what's needed to claim global optimality.</p>
+        </div>
+
+        <div class="solution">
+            <h3>Solution</h3>
+
+            <h4>Part (a): Function Characteristics</h4>
+            <p>The plot reveals:</p>
+            <ul>
+                <li><strong>Multiple local minima:</strong> Two distinct basins of attraction separated by a local maximum</li>
+                <li><strong>Left minimum:</strong> Deeper; occurs around x ≈ -32.6</li>
+                <li><strong>Right minimum:</strong> Shallower; occurs around x ≈ 2.3</li>
+                <li><strong>Steep rise:</strong> The exponential term dominates for large positive x</li>
+                <li><strong>Nonconvexity:</strong> Gradient-based optimization is not guaranteed to find the global minimum</li>
+            </ul>
+
+            <h4>Part (b): BFGS Results</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Starting Point</th>
+                        <th>Final x</th>
+                        <th>f(x)</th>
+                        <th>|f'(x)|</th>
+                        <th>Converged</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>x₀ = -15</td>
+                        <td>-32.649</td>
+                        <td>-390.386</td>
+                        <td>≈ 10⁻⁸</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>x₀ = 0</td>
+                        <td>2.350</td>
+                        <td>-175.863</td>
+                        <td>≈ 10⁻⁸</td>
+                        <td>Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Both runs report convergence (small gradients), but they found <em>different local minima</em>. The left starting point finds the deeper minimum.</p>
+
+            <h4>Part (c): Global Optimization Analysis</h4>
+            <p><strong>Why different minima?</strong></p>
+            <ul>
+                <li>BFGS is a local optimization method using only gradient information</li>
+                <li>Different starting points fall into different basins of attraction</li>
+                <li>Once in a basin, BFGS converges to that local minimum</li>
+                <li>The local maximum acts as a barrier between basins</li>
+            </ul>
+            <p><strong>Which gives the lower objective?</strong> The run starting at x₀ = -15 (f ≈ -390.4 vs. -175.9)</p>
+            <p><strong>Evidence needed for global minimum:</strong></p>
+            <ol>
+                <li>Analyze limiting behavior: f(x) as x → ±∞</li>
+                <li>Find <em>all</em> roots of f'(x) (all stationary points)</li>
+                <li>Evaluate f(x) at every stationary point and compare</li>
+                <li>Use multiple random starting points and verify convergence to the same solution</li>
+                <li>Grid search: Densely evaluate f over the domain (as shown in plots)</li>
+                <li>Formal verification requires proving no other region was missed</li>
+            </ol>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="q4">
+        <h2>Question 4: Nearly Collinear Predictors</h2>
+        
+        <div class="problem">
+            <h3>Problem</h3>
+            <p>Continue with X and y from Q1. Set seed to 43202, generate u ~ N(0,1), and define:</p>
+            <ul>
+                <li>x₆ = x₁ + 10⁻⁴u</li>
+                <li>X₊ = [X | x₆]</li>
+                <li>y* = y + 10⁻³u</li>
+            </ul>
+            <p><strong>(a)</strong> Fit y with X and X₊. Report condition numbers, RMSE, and coefficients of x₁ and x₆ for X₊.</p>
+            <p><strong>(b)</strong> Fit y* with X₊. Report coefficient changes and compare fitted values.</p>
+            <p><strong>(c)</strong> Use the identity y* - y = 10(x₆ - x₁) to explain why coefficients change drastically but fitted values don't.</p>
+        </div>
+
+        <div class="solution">
+            <h3>Solution</h3>
+
+            <h4>Part (a): Impact of Collinearity</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Design Matrix</th>
+                        <th>Condition Number</th>
+                        <th>Training RMSE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>X (original)</td>
+                        <td>≈ 1.5</td>
+                        <td>≈ 0.679</td>
+                    </tr>
+                    <tr>
+                        <td>X₊ (augmented)</td>
+                        <td>≈ 2×10⁴</td>
+                        <td>≈ 0.679</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The condition number increases dramatically (from 1.5 to 20,000), indicating severe collinearity. However, RMSE stays essentially the same because fitted values depend on the space spanned by columns, not individual coefficients.</p>
+            <p><strong>Coefficients for X₊ fit to y:</strong></p>
+            <ul>
+                <li>β̂₁ ≈ 351.7 (highly unstable)</li>
+                <li>β̂₆ ≈ -350.3 (highly unstable)</li>
+                <li>Sum ≈ 1.4 (stable; close to original x₁ coefficient)</li>
+            </ul>
+
+            <h4>Part (b): Sensitivity to Perturbation</h4>
+            <p>When fitting y* instead of y:</p>
+            <ul>
+                <li>Δβ̂₁ ≈ -10 (coefficient of x₁ decreases by 10)</li>
+                <li>Δβ̂₆ ≈ +10 (coefficient of x₆ increases by 10)</li>
+                <li>These large changes <em>cancel out</em> in predictions</li>
+            </ul>
+            <p><strong>Fitted value comparison:</strong></p>
+            <ul>
+                <li>RMSE of differences: ≈ 0.001</li>
+                <li>Maximum absolute difference: ≈ 0.003</li>
+            </ul>
+            <p>Despite the coefficient changes being ~10 times larger, fitted values barely change.</p>
+
+            <h4>Part (c): Why Coefficients Change but Predictions Don't</h4>
+            <p>The key identity is: <strong>y* - y = 10⁻³u = 10(10⁻⁴u) = 10(x₆ - x₁)</strong></p>
+            <p>This means the response perturbation can be exactly reproduced by:</p>
+            <ul>
+                <li>Decreasing the x₁ coefficient by 10</li>
+                <li>Increasing the x₆ coefficient by 10</li>
+            </ul>
+            <p>The net contribution to fitted values is: Δŷ = 10(x₆ - x₁) = 10⁻³u ≈ 0.001</p>
+            <p><strong>Key Insight:</strong> When predictors are nearly collinear:</p>
+            <ul>
+                <li><strong>Predictions are stable:</strong> The data identify the subspace well</li>
+                <li><strong>Coefficients are unstable:</strong> Individual effects are not well-determined</li>
+                <li><strong>Only combined effects matter:</strong> Β₁·x₁ + β₆·x₆ is identifiable, but β₁ and β₆ separately are not</li>
+                <li><strong>Interpretation is dangerous:</strong> Small data perturbations cause huge coefficient swings</li>
+            </ul>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="q5">
+        <h2>Question 5: Data Preparation and Summary Statistics</h2>
+        
+        <div class="problem">
+            <h3>Problem</h3>
+            <p>The file data/data-manipulation.csv contains ID, group, x1, x2, and response (with some missing values).</p>
+            <p><strong>(a)</strong> Report dimensions, types, duplicates, and missing values. Create analysis table with feature_sum = x1 + x2.</p>
+            <p><strong>(b)</strong> For each group, report count, mean response, and mean feature_sum.</p>
+            <p><strong>(c)</strong> Sort by response (descending) and show top 3. Add verification checks.</p>
+        </div>
+
+        <div class="solution">
+            <h3>Solution</h3>
+
+            <h4>Part (a): Data Summary</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Statistic</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dimensions</td>
+                        <td>24 rows × 5 columns</td>
+                    </tr>
+                    <tr>
+                        <td>observation_id</td>
+                        <td>Character (text)</td>
+                    </tr>
+                    <tr>
+                        <td>group</td>
+                        <td>Character (A, B, or C)</td>
+                    </tr>
+                    <tr>
+                        <td>x1, x2, response</td>
+                        <td>Numeric (double)</td>
+                    </tr>
+                    <tr>
+                        <td>Duplicated IDs</td>
+                        <td>0 (all unique)</td>
+                    </tr>
+                    <tr>
+                        <td>Missing values</td>
+                        <td>3 in response, 0 elsewhere</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>After removing rows with missing responses, we have 21 observations with feature_sum = x1 + x2 computed.</p>
+
+            <h4>Part (b): Group Summaries</h4>
+            <p><strong>Important:</strong> These summaries describe only the 21 observations with recorded responses, not all 24 rows.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Group</th>
+                        <th>Observations</th>
+                        <th>Mean Response</th>
+                        <th>Mean feature_sum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>A</td>
+                        <td>7</td>
+                        <td>5.60</td>
+                        <td>3.60</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>7</td>
+                        <td>7.60</td>
+                        <td>4.93</td>
+                    </tr>
+                    <tr>
+                        <td>C</td>
+                        <td>7</td>
+                        <td>7.99</td>
+                        <td>6.59</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Part (c): Top Three Responses</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>observation_id</th>
+                        <th>Group</th>
+                        <th>Response</th>
+                        <th>feature_sum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>obs-22</td>
+                        <td>C</td>
+                        <td>9.24</td>
+                        <td>6.6</td>
+                    </tr>
+                    <tr>
+                        <td>obs-16</td>
+                        <td>B</td>
+                        <td>9.00</td>
+                        <td>5.2</td>
+                    </tr>
+                    <tr>
+                        <td>obs-14</td>
+                        <td>B</td>
+                        <td>8.66</td>
+                        <td>5.0</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Verification Checks</h4>
+            <ul>
+                <li>✓ Retained rows (21) = Nonmissing responses (21): <strong>PASSED</strong></li>
+                <li>✓ Analysis table has no missing responses: <strong>PASSED</strong></li>
+                <li>✓ All identifiers are unique: <strong>PASSED</strong></li>
+            </ul>
+            <p><strong>Why not impute missing values?</strong> Replacing with zero or group mean would introduce artificial values and bias estimates. We use only observed data.</p>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="q6">
+        <h2>Question 6: Fitbit Data and Selection Bias</h2>
+        
+        <div class="problem">
+            <h3>Problem</h3>
+            <p>Patten et al. (2026) report 39M Fitbit records from 59K participants in the All of Us program. Participants entered via BYOD (bring your own) or WEAR (provided device).</p>
+            <p><strong>Key statistics:</strong> BYOD vs. WEAR</p>
+            <ul>
+                <li>White: 77.3% vs. 55.1%</li>
+                <li>Income -25K: 6.1% vs. 15.2%</li>
+                <li>Median daily steps: 6,867 vs. 5,797</li>
+            </ul>
+            <p><strong>(a)</strong> Are 39M records independent? What causes unequal contribution?</p>
+            <p><strong>(b)</strong> Does BYOD's higher step count show causation? Alternative explanations?</p>
+            <p><strong>(c)</strong> How do participant and day selection create bias?</p>
+        </div>
+
+        <div class="solution">
+            <h3>Solution</h3>
+
+            <h4>Part (a): Independence and Weighting</h4>
+            <div class="note">
+                <strong>Are the records independent?</strong> NO.
+            </div>
+            <ul>
+                <li>39M records come from ~59K participants → ~660 records per person average</li>
+                <li>Multiple days from the same person are <em>correlated</em></li>
+                <li>Reasons: Health status, employment, habits, weather all persist over time</li>
+                <li>Standard analysis must account for participant-level clustering</li>
+            </ul>
+            <p><strong>What causes unequal contribution per participant?</strong></p>
+            <ul>
+                <li><strong>Increases records:</strong> Long enrollment, consistent use, good sync, technical access</li>
+                <li><strong>Decreases records:</strong> Illness, travel, device issues, privacy concerns, low motivation</li>
+            </ul>
+            <p><strong>Unequal weighting problem:</strong></p>
+            <ul>
+                <li>Averaging all 39M days gives more weight to people with more recorded days</li>
+                <li>If records/person correlates with activity → systematic bias</li>
+                <li>Example: Active people may maintain wearables better → more days recorded</li>
+                <li>Naive average would over-represent high-activity participants</li>
+            </ul>
+
+            <h4>Part (b): BYOD vs. WEAR Comparison</h4>
+            <div class="note">
+                <strong>Does BYOD's higher step count show causation?</strong> NO.
+            </div>
+            <p><strong>The observed difference:</strong> 6,867 (BYOD) vs. 5,797 (WEAR) = 1,070 more steps (18% higher)</p>
+            <p><strong>Why this is NOT causal:</strong></p>
+            <ul>
+                <li>NOT a randomized experiment → no causation can be inferred</li>
+                <li>Groups differ in <strong>how they enrolled</strong>, not just device ownership</li>
+                <li>BYOD: Self-selected (already bought a Fitbit)</li>
+                <li>WEAR: Program-invited (may differ in motivation, health awareness)</li>
+            </ul>
+            <p><strong>Evidence of selection differences:</strong></p>
+            <ul>
+                <li><strong>Race:</strong> 77.3% White (BYOD) vs. 55.1% White (WEAR)</li>
+                <li><strong>Income:</strong> 6.1% earn -25K (BYOD) vs. 15.2% (WEAR)</li>
+                <li>These demographic differences show the groups are fundamentally different</li>
+            </ul>
+            <p><strong>More plausible explanations than causation:</strong></p>
+            <ol>
+                <li><strong>Selection bias:</strong> People who own Fitbits are already health-conscious and more active</li>
+                <li><strong>Socioeconomic status:</strong> BYOD participants are wealthier (higher % White, lower poverty), possibly more active</li>
+                <li><strong>Motivation & access:</strong> BYOD users self-selected for wearables; WEAR users were invited (may have lower tech interest)</li>
+                <li><strong>Retention:</strong> BYOD users have sunk costs (bought the device); WEAR users received free device (might drop out easily)</li>
+                <li><strong>Baseline activity:</strong> Before Fitbit ownership, BYOD and WEAR may have had different activity levels</li>
+            </ol>
+
+            <h4>Part (c): Selection Bias from Participants and Days</h4>
+            <p><strong>Target population:</strong> Mean of participant-specific average daily steps among US adults (each person weighted equally).</p>
+            <p><strong>Selection happens at FIVE stages:</strong></p>
+            <ol>
+                <li><strong>Enrollment in All of Us:</strong>
+                    <ul>
+                        <li>Voluntary participation</li>
+                        <li>May differ from US in: health interest, income, education, geography, demographics</li>
+                    </ul>
+                </li>
+                <li><strong>Enrollment route choice (BYOD vs. WEAR):</strong>
+                    <ul>
+                        <li>BYOD: Must already own Fitbit (money, tech interest)</li>
+                        <li>WEAR: Invited by program (selection by researchers)</li>
+                    </ul>
+                </li>
+                <li><strong>Data-sharing consent:</strong>
+                    <ul>
+                        <li>Not everyone agrees to share wearables data</li>
+                        <li>Privacy concerns differ by demographic group</li>
+                    </ul>
+                </li>
+                <li><strong>Technical connection & setup:</strong>
+                    <ul>
+                        <li>Requires login, authentication, device sync</li>
+                        <li>Higher tech literacy among successful connectors</li>
+                    </ul>
+                </li>
+                <li><strong>Sustained device use & valid records:</strong>
+                    <ul>
+                        <li>Requires continued motivation and access</li>
+                        <li>Illness, travel, device failure reduce days recorded</li>
+                        <li>People with stable routines contribute more days</li>
+                    </ul>
+                </li>
+            </ol>
+            <p><strong>Why the naive average of 39M records fails:</strong></p>
+            <div class="note">
+                <strong>Problem 1: Unequal participant weighting</strong>
+                <ul>
+                    <li>Average gives more weight to people with more recorded days</li>
+                    <li>If recording correlates with activity → biased estimate</li>
+                </ul>
+            </div>
+            <div class="note">
+                <strong>Problem 2: Selected participant population</strong>
+                <ul>
+                    <li>Observed participants ≠ random US adults</li>
+                    <li>Self-selected through multiple stages</li>
+                    <li>Likely: more health-conscious, tech-savvy, affluent, healthier</li>
+                    <li>This population's mean activity ≠ US adult mean activity</li>
+                </ul>
+            </div>
+            <div class="note">
+                <strong>Problem 3: Selected observation days</strong>
+                <ul>
+                    <li>Even among enrolled participants, healthy/active people record more days</li>
+                    <li>Sick/disabled people record fewer days</li>
+                    <li>This selection by day correlates with step count</li>
+                </ul>
+            </div>
+            <p><strong>Conclusion:</strong> Large datasets with selection bias still produce biased estimates. The 39 million records do not guarantee accuracy when the data come from a selected population.</p>
+        </div>
+    </section>
+
+    <hr>
+
+    <footer>
+        <p>Homework 01 - Complete Solutions</p>
+        <p>Statistics 432 - Fall 2026</p>
+        <p>Submitted: August 30, 2026</p>
+    </footer>
+</body>
+</html>
