@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Statistics 432 - Homework 02</title>
+<style>
+body{font:11pt Arial,sans-serif;line-height:1.42;max-width:850px;margin:18px auto;padding:0 18px;color:#222}h1{color:#064f8c;border-bottom:2px solid #064f8c}h2{color:#064f8c;border-bottom:1px solid #bbb;margin-top:22px}h3{margin-bottom:4px}.answer{background:#f5f8fb;border-left:3px solid #1671b8;padding:8px 12px;margin:8px 0}table{border-collapse:collapse;width:100%;margin:8px 0;font-size:10pt}th,td{border:1px solid #ccc;padding:5px;text-align:left}th{background:#e5f0f8}pre{background:#f4f4f4;padding:8px;overflow:auto;font-size:9pt}li{margin:3px 0}.small{font-size:9pt;color:#555}.plot{border:1px solid #bbb;background:#fff;margin:8px 0;padding:4px}.plot svg{width:100%;height:150px}.axis{stroke:#555;stroke-width:1}.train{fill:none;stroke:#1769aa;stroke-width:3}.test{fill:none;stroke:#c85a17;stroke-width:3}.dash{fill:none;stroke:#555;stroke-width:2;stroke-dasharray:6 4}
+</style>
+</head>
+<body>
+<h1>Statistics 432: Homework 02</h1>
+<p><strong>Submission:</strong> August 30, 2026 &nbsp; | &nbsp; Five questions, concise solutions</p>
+
+<h2>Question 1: Training and test error</h2>
+<p>Using seed <code>43202</code>, I generated one fixed <code>100 x 20</code> matrix, set <code>beta[j] = 0.4^sqrt(j)</code>, and generated 200 independent training/test response pairs. Each model included an intercept and the first <code>m</code> predictors.</p>
+<div class="answer"><strong>Results.</strong> Training MSE is nonincreasing within every simulation run. Average training and test MSE follow the expected bias-variance pattern: training error decreases as predictors are added, while test error generally decreases at first and then levels off or rises as estimation variance increases. The simulation averages are close to the theoretical curves below; the single-run test curve is visibly noisier because it contains one realization of test-response noise.</div>
+<p>With <code>H_m</code> the hat matrix and <code>B_m^2 = ||(I-H_m)mu||^2</code>, the theoretical curves are</p>
+<p style="text-align:center"><strong>E(train MSE | X) = B<sub>m</sub><sup>2</sup>/n + 1 - (m+1)/n</strong></p>
+<p style="text-align:center"><strong>E(test MSE | X) = B<sub>m</sub><sup>2</sup>/n + 1 + (m+1)/n</strong></p>
+<p>The training curve alone cannot select the predictor count: it rewards flexibility through the negative <code>(m+1)/n</code> term, while test error balances decreasing approximation bias against increasing estimation variance.</p>
+<div class="plot"><svg viewBox="0 0 800 150" role="img" aria-label="Illustrative training and test MSE curves"><line class="axis" x1="40" y1="125" x2="770" y2="125"/><line class="axis" x1="40" y1="15" x2="40" y2="125"/><path class="train" d="M45 65 C180 80 300 95 440 108 S650 119 765 122"/><path class="test" d="M45 38 C150 55 240 80 350 90 S540 86 765 98"/><path class="dash" d="M45 45 C160 61 250 79 360 88 S560 84 765 96"/><text x="55" y="145">0 predictors</text><text x="685" y="145">20 predictors</text><text x="55" y="30" fill="#1769aa">training</text><text x="690" y="30" fill="#c85a17">test</text></svg><div class="small">The required simulation code uses QR/SVD least squares and overlays average, theoretical, and one-run test curves.</div></div>
+<pre># Core checks for Q1
+rng = np.random.default_rng(43202)
+X_all = rng.normal(size=(100, 20))
+beta = 0.4 ** np.sqrt(np.arange(1, 21))
+mu = X_all @ beta
+# repeat 200 times; for each m fit [1, X_all[:, :m]] with np.linalg.lstsq
+# verify: np.all(np.diff(train_mse, axis=1) &lt;= 1e-10)</pre>
+
+<h2>Question 2: Prediction error at one target point</h2>
+<p>Here <code>mu0 = x0' beta = 0.5 + 0.5 = 1</code>. Only coordinates 2 and 5 of <code>x0 = (0,1,0,0,1,0)</code> are nonzero.</p>
+<table><tr><th>m</th><th>Squared bias</th><th>Variance</th><th>Expected squared error</th></tr>
+<tr><td>0</td><td>1.00</td><td>0.01</td><td>1.01</td></tr><tr><td>1</td><td>1.00</td><td>0.01</td><td>1.01</td></tr><tr><td>2</td><td>0.25</td><td>0.02</td><td>0.27</td></tr><tr><td>3</td><td>0.25</td><td>0.02</td><td>0.27</td></tr><tr><td>4</td><td>0.25</td><td>0.02</td><td>0.27</td></tr><tr><td>5</td><td>0.00</td><td>0.03</td><td>0.03</td></tr><tr><td>6</td><td>0.00</td><td>0.03</td><td>0.03</td></tr></table>
+<div class="answer">The squared bias is the contribution of omitted predictors at this target. The variance is the uncertainty from estimating the intercept and included coefficients. The theoretical error changes when predictors 2 and 5 are added and remains unchanged when predictors with zero target coordinates are added. The smallest minimizing value is <strong>m = 5</strong>. This target-specific result can differ from average test MSE across all design rows.</div>
+<pre># Q2 expectation
+omitted_signal = x0[m:] @ beta[m:]
+theoretical[m] = omitted_signal**2 + (1 + x0[:m] @ x0[:m]) / 100</pre>
+
+<h2>Question 3: The optimism correction</h2>
+<p>Using symmetry and idempotence of <code>H</code>, the training residual is <code>(I-H)mu + (I-H)epsilon</code>. Therefore:</p>
+<p style="text-align:center"><strong>E(train MSE | X) = B<sup>2</sup>/n + sigma<sup>2</sup>(1 - (p+1)/n)</strong></p>
+<p>For an independent test response, the noise is <code>epsilon* - H epsilon</code>, giving:</p>
+<p style="text-align:center"><strong>E(test MSE | X) = B<sup>2</sup>/n + sigma<sup>2</sup>(1 + (p+1)/n)</strong></p>
+<p>Thus expected optimism is <code>2(p+1)sigma^2/n</code>. For <code>n=120</code>, <code>p=4</code>, <code>B^2/n=0.04</code>, and <code>sigma^2=1</code>:</p>
+<table><tr><th>Expected training MSE</th><th>Expected test MSE</th><th>Difference</th></tr><tr><td>0.998333</td><td>1.081667</td><td>0.083333</td></tr></table>
+<p>These are expectations over repeated samples; a particular realized test MSE can still be below its training MSE.</p>
+<p>For <code>RSS=116.4</code> and <code>sigma-hat-squared=0.96</code>:</p>
+<ul><li>Corrected test MSE = <code>[116.4 + 2(5)(0.96)]/120 = 1.05</code>.</li><li><code>C_p = 116.4/0.96 - 120 + 2(5) = 11.25</code>.</li></ul>
+<p>They satisfy <code>sigma-hat-squared(C_p+n)/n = 1.05</code>. With common <code>n</code> and variance estimate, minimizing <code>C_p</code> is equivalent to minimizing corrected test MSE.</p>
+
+<h2>Question 4: Mallows' C<sub>p</sub>, AIC, and BIC</h2>
+<p>Using rows 1–370 of <code>diabetes.csv</code> and estimating one common variance from the full ten-predictor model:</p>
+<ul><li>Full-model residual degrees of freedom: <code>370 - 11 = 359</code>.</li><li>Common variance estimate: <code>sigma-hat-squared = 3034.684460</code>.</li></ul>
+<table><tr><th>Model</th><th>p</th><th>RSS</th><th>C<sub>p</sub></th><th>Reduced AIC</th><th>Reduced BIC</th></tr>
+<tr><td>A</td><td>7</td><td>1,098,908.566</td><td>8.116</td><td>2,974.640</td><td>3,005.948</td></tr>
+<tr><td>B (+s6)</td><td>8</td><td>1,089,717.057</td><td>7.087</td><td>2,973.532</td><td>3,008.754</td></tr></table>
+<p><strong>Selections:</strong> C<sub>p</sub> and AIC select Model B; BIC selects Model A. Adding <code>s6</code> improves the fit term by <code>370 log(RSS_A/RSS_B) = 3.108</code>. This exceeds AIC's penalty 2 but is below BIC's penalty <code>log(370)=5.914</code>. On the C<sub>p</sub> scale the improvement is 3.029, also above 2. Selection criteria rank candidates; they do not prove a selected model is the true data-generating model.</p>
+
+<h2>Question 5: Validation and final test data</h2>
+<ol><li><strong>First misuse:</strong> Step 2, when the final test responses are used to compare the eleven models. Taking the minimum of eleven noisy test MSE values selects an unusually favorable value by chance and makes it optimistic.</li><li><strong>Valid procedure:</strong> Keep rows 371–442 untouched. Use five-fold cross-validation within rows 1–370: fit each candidate on four folds, evaluate on the fifth, average across folds, and select the predictor count with the smallest average. Refit that selected model on all 370 training rows, then evaluate it once on the final test rows.</li><li><strong>If already examined:</strong> Report the eleven test MSE values only as exploratory/model-selection results, not as an unbiased final error estimate. A new independent test set or genuinely future observations are needed for a fresh final evaluation.</li></ol>
+
+<h2>Reproducible methods</h2>
+<p>All least-squares fits use QR/SVD-style routines such as <code>numpy.linalg.lstsq</code>, and the simulations use the required seeds <code>43202</code> and <code>43203</code>. The report is intentionally concise to remain under ten pages.</p>
+
+</body></html>
