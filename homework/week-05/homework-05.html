@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Homework 05 Solutions</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="homework-05_files/libs/clipboard/clipboard.min.js"></script>
+<script src="homework-05_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="homework-05_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="homework-05_files/libs/quarto-html/popper.min.js"></script>
+<script src="homework-05_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="homework-05_files/libs/quarto-html/anchor.min.js"></script>
+<link href="homework-05_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="homework-05_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="homework-05_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="homework-05_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="homework-05_files/libs/bootstrap/bootstrap-efbb37e9afcc02144ebbc7afd12a776f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="lecture-page practice-page quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-full">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content column-page" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Homework 05 Solutions</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+<nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#question-1-estimate-the-bias-and-variance-of-knn" id="toc-question-1-estimate-the-bias-and-variance-of-knn">Question 1: Estimate the bias and variance of KNN</a></li>
+  <li><a href="#question-2-compare-knn-with-lasso" id="toc-question-2-compare-knn-with-lasso">Question 2: Compare KNN with lasso</a></li>
+  <li><a href="#question-3-observed-dimension-and-latent-dimension" id="toc-question-3-observed-dimension-and-latent-dimension">Question 3: Observed dimension and latent dimension</a></li>
+  <li><a href="#question-4-classify-handwritten-digits" id="toc-question-4-classify-handwritten-digits">Question 4: Classify handwritten digits</a></li>
+  <li><a href="#question-5-create-a-plot-formatting-skill" id="toc-question-5-create-a-plot-formatting-skill">Question 5: Create a plot-formatting skill</a></li>
+  </ul>
+</nav>
+<section id="question-1-estimate-the-bias-and-variance-of-knn" class="level2">
+<h2 class="anchored" data-anchor-id="question-1-estimate-the-bias-and-variance-of-knn">Question 1: Estimate the bias and variance of KNN</h2>
+<section id="original-question" class="level3">
+<h3 class="anchored" data-anchor-id="original-question">Original question</h3>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>In our previous homework, we used repeated simulations to study the behavior of linear regression estimators. We will now use the same idea for KNN. Consider the regression model</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>i</mi></msub><mo>=</mo><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>𝐗</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><msub><mi>ϵ</mi><mi>i</mi></msub><mo>,</mo><mspace width="2.0em"></mspace><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>𝐱</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.5</mn><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>0.3</mn><msubsup><mi>x</mi><mn>3</mn><mn>2</mn></msubsup><mo>,</mo></mrow><annotation encoding="application/x-tex">
+Y_i=f(\mathbf X_i)+\epsilon_i,
+\qquad
+f(\mathbf x)=0.5x_1+\sin(x_2)-0.3x_3^2,
+</annotation></semantics></math></p>
+<p>where the three covariates are independent standard normal variables and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ϵ</mi><mi>i</mi></msub><mo>∼</mo><mi>𝒩</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mn>0.1</mn><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\epsilon_i\sim\mathcal N(0,0.1^2)</annotation></semantics></math> independently of the covariates and other observations. Generate <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>400</mn></mrow><annotation encoding="application/x-tex">n=400</annotation></semantics></math> training observations. Our goal is to estimate the mean response at</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐱</mi><mn>0</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>0.5</mn><mo>,</mo><mn>0.7</mn><mo>,</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>𝖳</mi></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\mathbf x_0=(0.5,0.7,1)^{\mathsf T}.
+</annotation></semantics></math></p>
+<p>Use Euclidean distance and consider <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>3</mn><mo>,</mo><mn>5</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>29</mn></mrow><annotation encoding="application/x-tex">k=1,3,5,\ldots,29</annotation></semantics></math>.</p>
+<ol type="a">
+<li><p>Calculate <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>𝐱</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(\mathbf x_0)</annotation></semantics></math>. Generate one training dataset and obtain the KNN prediction at <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐱</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\mathbf x_0</annotation></semantics></math> for each value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>.</p></li>
+<li><p>Independently repeat the generation of the training covariates and responses 200 times. Within each repetition, use the same training data for every value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>. Store the predictions in a matrix with 200 rows and one column for each value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>. Use this matrix to estimate the bias, variance, and mean squared error of the estimated mean response. Use divisor 200 when calculating the empirical variance, and verify numerically that</p></li>
+</ol>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">mean squared error</mtext><mo>=</mo><mtext mathvariant="normal">squared bias</mtext><mo>+</mo><mtext mathvariant="normal">variance</mtext><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\text{mean squared error}
+=\text{squared bias}+\text{variance}.
+</annotation></semantics></math></p>
+<p>Plot squared bias, variance, and mean squared error against <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> in one figure. Explain the pattern and compare it with the bias-variance trade-off for ridge regression or lasso.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="solution" class="level3">
+<h3 class="anchored" data-anchor-id="solution">Solution</h3>
+<p><strong>a.</strong> The target is the mean response, whose true value is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>𝐱</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.5</mn><mo stretchy="false" form="prefix">(</mo><mn>0.5</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>0.7</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>0.3</mn><mo stretchy="false" form="prefix">(</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>≈</mo><mn>0.594218</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
+f(\mathbf x_0)=0.5(0.5)+\sin(0.7)-0.3(1)^2
+\approx 0.594218.
+</annotation></semantics></math></p>
+<p>We first generate one training dataset and average the responses of the nearest <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> observations for each choice of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset sync-code-panels" data-group="homework-05-language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content sync-code-panels" data-group="homework-05-language">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FNN)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">43251</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">400</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>k_values <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">29</span>, <span class="dv">2</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>x0 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.7</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">1</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>f0 <span class="ot">=</span> <span class="fl">0.5</span><span class="sc">*</span>x0[<span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">+</span> <span class="fu">sin</span>(x0[<span class="dv">1</span>, <span class="dv">2</span>]) <span class="sc">-</span> <span class="fl">0.3</span><span class="sc">*</span>x0[<span class="dv">1</span>, <span class="dv">3</span>]<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n<span class="sc">*</span>p), <span class="at">nrow =</span> n, <span class="at">ncol =</span> p)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fl">0.5</span><span class="sc">*</span>X[, <span class="dv">1</span>] <span class="sc">+</span> <span class="fu">sin</span>(X[, <span class="dv">2</span>]) <span class="sc">-</span> <span class="fl">0.3</span><span class="sc">*</span>X[, <span class="dv">3</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="fl">0.1</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(k_values))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> <span class="fu">seq_along</span>(k_values)) {</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">=</span> k_values[m]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  knn.fit <span class="ot">=</span> <span class="fu">knn.reg</span>(<span class="at">train =</span> X, <span class="at">test =</span> x0, <span class="at">y =</span> y,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">k =</span> k, <span class="at">algorithm =</span> <span class="st">"brute"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  pred[m] <span class="ot">=</span> knn.fit<span class="sc">$</span>pred</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">k =</span> k_values, <span class="at">prediction =</span> pred, <span class="at">truth =</span> f0)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    k prediction     truth
+1   1  0.7888302 0.5942177
+2   3  0.6621674 0.5942177
+3   5  0.6642853 0.5942177
+4   7  0.6100117 0.5942177
+5   9  0.6318671 0.5942177
+6  11  0.4925114 0.5942177
+7  13  0.5222989 0.5942177
+8  15  0.5810203 0.5942177
+9  17  0.5738171 0.5942177
+10 19  0.5751479 0.5942177
+11 21  0.5800517 0.5942177
+12 23  0.5519177 0.5942177
+13 25  0.5214556 0.5942177
+14 27  0.4952957 0.5942177
+15 29  0.4972667 0.5942177</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">43251</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">400</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>k_values <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">30</span>, <span class="dv">2</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.array([[<span class="fl">0.5</span>, <span class="fl">0.7</span>, <span class="dv">1</span>]])</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>f0 <span class="op">=</span> <span class="fl">0.5</span><span class="op">*</span>x0[<span class="dv">0</span>, <span class="dv">0</span>] <span class="op">+</span> np.sin(x0[<span class="dv">0</span>, <span class="dv">1</span>]) <span class="op">-</span> <span class="fl">0.3</span><span class="op">*</span>x0[<span class="dv">0</span>, <span class="dv">2</span>]<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.random.normal(size<span class="op">=</span>(n, p))</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> (<span class="fl">0.5</span><span class="op">*</span>X[:, <span class="dv">0</span>] <span class="op">+</span> np.sin(X[:, <span class="dv">1</span>]) <span class="op">-</span> <span class="fl">0.3</span><span class="op">*</span>X[:, <span class="dv">2</span>]<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>     <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="fl">0.1</span>, n))</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.zeros(<span class="bu">len</span>(k_values))</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> m, k <span class="kw">in</span> <span class="bu">enumerate</span>(k_values):</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    knn_fit <span class="op">=</span> KNeighborsRegressor(n_neighbors<span class="op">=</span><span class="bu">int</span>(k), weights<span class="op">=</span><span class="st">"uniform"</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>                                  algorithm<span class="op">=</span><span class="st">"brute"</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    knn_fit.fit(X, y)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    pred[m] <span class="op">=</span> knn_fit.predict(x0)[<span class="dv">0</span>]</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.DataFrame({<span class="st">"k"</span>: k_values, <span class="st">"prediction"</span>: pred, <span class="st">"truth"</span>: f0}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     k  prediction     truth
+0    1    0.847540  0.594218
+1    3    0.570740  0.594218
+2    5    0.642444  0.594218
+3    7    0.614333  0.594218
+4    9    0.641423  0.594218
+5   11    0.576739  0.594218
+6   13    0.556318  0.594218
+7   15    0.551736  0.594218
+8   17    0.578973  0.594218
+9   19    0.611623  0.594218
+10  21    0.529554  0.594218
+11  23    0.515161  0.594218
+12  25    0.557332  0.594218
+13  27    0.518179  0.594218
+14  29    0.538406  0.594218</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>b.</strong> Each column of the prediction matrix contains 200 estimates of the same target. Its mean minus <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>𝐱</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(\mathbf x_0)</annotation></semantics></math> estimates bias; its variance, calculated with divisor 200, estimates sampling variance. Averaging the squared differences from <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>𝐱</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(\mathbf x_0)</annotation></semantics></math> estimates MSE. Using the same divisor makes the empirical decomposition an exact identity, apart from rounding.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset sync-code-panels" data-group="homework-05-language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content sync-code-panels" data-group="homework-05-language">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nsim <span class="ot">=</span> <span class="dv">200</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> nsim, <span class="at">ncol =</span> <span class="fu">length</span>(k_values))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nsim) {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n<span class="sc">*</span>p), <span class="at">nrow =</span> n, <span class="at">ncol =</span> p)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">=</span> <span class="fl">0.5</span><span class="sc">*</span>X[, <span class="dv">1</span>] <span class="sc">+</span> <span class="fu">sin</span>(X[, <span class="dv">2</span>]) <span class="sc">-</span> <span class="fl">0.3</span><span class="sc">*</span>X[, <span class="dv">3</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="fl">0.1</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (m <span class="cf">in</span> <span class="fu">seq_along</span>(k_values)) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    k <span class="ot">=</span> k_values[m]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    knn.fit <span class="ot">=</span> <span class="fu">knn.reg</span>(<span class="at">train =</span> X, <span class="at">test =</span> x0, <span class="at">y =</span> y,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">k =</span> k, <span class="at">algorithm =</span> <span class="st">"brute"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    pred[l, m] <span class="ot">=</span> knn.fit<span class="sc">$</span>pred</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>bias <span class="ot">=</span> <span class="fu">colMeans</span>(pred) <span class="sc">-</span> f0</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>variance <span class="ot">=</span> <span class="fu">colMeans</span>(<span class="fu">sweep</span>(pred, <span class="dv">2</span>, <span class="fu">colMeans</span>(pred), <span class="st">"-"</span>)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>mse <span class="ot">=</span> <span class="fu">colMeans</span>((pred <span class="sc">-</span> f0)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">k =</span> k_values, <span class="at">bias =</span> bias, <span class="at">variance =</span> variance, <span class="at">MSE =</span> mse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    k         bias    variance        MSE
+1   1 -0.001248923 0.037181204 0.03718276
+2   3 -0.029361680 0.019831580 0.02069369
+3   5 -0.040815728 0.014731018 0.01639694
+4   7 -0.045589732 0.010865566 0.01294399
+5   9 -0.051867114 0.009467440 0.01215764
+6  11 -0.062360901 0.009506180 0.01339506
+7  13 -0.067797856 0.009397702 0.01399425
+8  15 -0.070662763 0.008542311 0.01353554
+9  17 -0.081499864 0.008213727 0.01485595
+10 19 -0.089385641 0.008429774 0.01641957
+11 21 -0.096080776 0.008413451 0.01764497
+12 23 -0.102803643 0.008103017 0.01867161
+13 25 -0.107847900 0.008091147 0.01972232
+14 27 -0.114428351 0.007777947 0.02087180
+15 29 -0.121688194 0.007474576 0.02228259</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(mse <span class="sc">-</span> bias<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> variance))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.938894e-18</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(k_values, <span class="fu">cbind</span>(bias<span class="sc">^</span><span class="dv">2</span>, variance, mse), <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">1</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"darkorange"</span>, <span class="st">"deepskyblue3"</span>, <span class="st">"black"</span>),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Number of neighbors k"</span>, <span class="at">ylab =</span> <span class="st">"Squared error"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(mse)))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"Squared bias"</span>, <span class="st">"Variance"</span>, <span class="st">"MSE"</span>),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"darkorange"</span>, <span class="st">"deepskyblue3"</span>, <span class="st">"black"</span>), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">pch =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="homework-05_files/figure-html/hw5-q1-plot-r-1.png" class="img-fluid figure-img" alt="Squared bias, variance, and mean squared error at the fixed target as the number of neighbors increases." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>nsim <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.full((nsim, <span class="bu">len</span>(k_values)), np.nan)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(nsim):</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.random.normal(size<span class="op">=</span>(n, p))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> (<span class="fl">0.5</span><span class="op">*</span>X[:, <span class="dv">0</span>] <span class="op">+</span> np.sin(X[:, <span class="dv">1</span>]) <span class="op">-</span> <span class="fl">0.3</span><span class="op">*</span>X[:, <span class="dv">2</span>]<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>         <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="fl">0.1</span>, n))</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> m, k <span class="kw">in</span> <span class="bu">enumerate</span>(k_values):</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        knn_fit <span class="op">=</span> KNeighborsRegressor(n_neighbors<span class="op">=</span><span class="bu">int</span>(k), weights<span class="op">=</span><span class="st">"uniform"</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                                      algorithm<span class="op">=</span><span class="st">"brute"</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        knn_fit.fit(X, y)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        pred[l, m] <span class="op">=</span> knn_fit.predict(x0)[<span class="dv">0</span>]</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>bias <span class="op">=</span> pred.mean(axis<span class="op">=</span><span class="dv">0</span>) <span class="op">-</span> f0</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>variance <span class="op">=</span> pred.var(axis<span class="op">=</span><span class="dv">0</span>, ddof<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>mse <span class="op">=</span> ((pred <span class="op">-</span> f0)<span class="op">**</span><span class="dv">2</span>).mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.DataFrame({<span class="st">"k"</span>: k_values, <span class="st">"bias"</span>: bias,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"variance"</span>: variance, <span class="st">"MSE"</span>: mse}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     k      bias  variance       MSE
+0    1 -0.030696  0.035483  0.036426
+1    3 -0.042477  0.017863  0.019667
+2    5 -0.063010  0.014078  0.018048
+3    7 -0.061247  0.012000  0.015751
+4    9 -0.074360  0.010798  0.016327
+5   11 -0.080647  0.009484  0.015988
+6   13 -0.083765  0.008917  0.015934
+7   15 -0.091509  0.009190  0.017564
+8   17 -0.091101  0.008264  0.016563
+9   19 -0.096967  0.007931  0.017334
+10  21 -0.104375  0.007739  0.018633
+11  23 -0.115020  0.007236  0.020465
+12  25 -0.119638  0.006421  0.020735
+13  27 -0.121039  0.006248  0.020899
+14  29 -0.124566  0.006007  0.021524</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Largest decomposition difference:"</span>, np.<span class="bu">max</span>(np.<span class="bu">abs</span>(mse <span class="op">-</span> bias<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> variance)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Largest decomposition difference: 1.1188966420050406e-16</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">4.5</span>))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plt.plot(k_values, bias<span class="op">**</span><span class="dv">2</span>, <span class="st">"o-"</span>, color<span class="op">=</span><span class="st">"darkorange"</span>, label<span class="op">=</span><span class="st">"Squared bias"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>plt.plot(k_values, variance, <span class="st">"o-"</span>, color<span class="op">=</span><span class="st">"deepskyblue"</span>, label<span class="op">=</span><span class="st">"Variance"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plt.plot(k_values, mse, <span class="st">"o-"</span>, color<span class="op">=</span><span class="st">"black"</span>, label<span class="op">=</span><span class="st">"MSE"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Number of neighbors k"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Squared error"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>plt.ylim(bottom<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="homework-05_files/figure-html/hw5-q1-plot-python-1.png" class="img-fluid figure-img" alt="Squared bias, variance, and mean squared error at the fixed target as the number of neighbors increases." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Larger <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> averages more responses, reducing variability, but it also includes observations farther from the target. Their mean responses can differ more from <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>𝐱</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(\mathbf x_0)</annotation></semantics></math>, introducing bias. Here an intermediate neighborhood gives a lower MSE than either very few or many neighbors. Small irregularities in the curves are expected with 200 repetitions; monotonic changes in each component are not guaranteed.</p>
+<p>Increasing <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> plays a similar smoothing role to increasing the penalty in ridge regression or lasso: predictions become less flexible, with a trade-off between bias and variance. KNN changes which local responses are averaged; ridge and lasso shrink fitted coefficients. In this experiment both the training locations and their responses change across repetitions, so the variance includes changing neighborhoods as well as response noise. It is therefore not simply <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>0.1</mn><mn>2</mn></msup><mi>/</mi><mi>k</mi></mrow><annotation encoding="application/x-tex">0.1^2/k</annotation></semantics></math>, which describes the conditional noise variance when the neighbor locations are fixed.</p>
+</section>
+</section>
+<section id="question-2-compare-knn-with-lasso" class="level2">
+<h2 class="anchored" data-anchor-id="question-2-compare-knn-with-lasso">Question 2: Compare KNN with lasso</h2>
+<section id="original-question-1" class="level3">
+<h3 class="anchored" data-anchor-id="original-question-1">Original question</h3>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Use the response model from Question 1, including the noise standard deviation <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.1</mn><annotation encoding="application/x-tex">0.1</annotation></semantics></math>, but generate <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">p=30</annotation></semantics></math> covariates. The response still depends only on the first three. Consider these two settings:</p>
+<ul>
+<li><p><strong>Setting 1:</strong> all 30 covariates are independent standard normal variables.</p></li>
+<li><p><strong>Setting 2:</strong> the covariates have a multivariate normal distribution with mean zero and covariance matrix <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝚺</mi><annotation encoding="application/x-tex">\boldsymbol\Sigma</annotation></semantics></math>, where</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Σ</mi><mrow><mi>j</mi><mi>j</mi></mrow></msub><mo>=</mo><mn>1</mn><mo>,</mo><mspace width="2.0em"></mspace><msub><mi mathvariant="normal">Σ</mi><mrow><mi>j</mi><mi>l</mi></mrow></msub><mo>=</mo><mn>0.8</mn><mspace width="1.0em"></mspace><mrow><mtext mathvariant="normal">for </mtext><mspace width="0.333em"></mspace></mrow><mi>j</mi><mo>≠</mo><mi>l</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\Sigma_{jj}=1,
+\qquad
+\Sigma_{jl}=0.8\quad\text{for }j\ne l.
+</annotation></semantics></math></p></li>
+</ul>
+<p>In each setting, generate 400 training observations and 1,000 independent test observations. Fit 5NN using Euclidean distance on the supplied covariate scale. All covariates already have population variance one.</p>
+<p>For lasso, use a linear model containing the 30 covariates and a separately fitted, unpenalized intercept. Follow the Week 4 objective,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mi>λ</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>𝛃</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>2</mn><mi>n</mi></mrow></mfrac><msubsup><mrow><mo stretchy="true" form="prefix">∥</mo><mover><mi>𝐲</mi><mo accent="true">̃</mo></mover><mo>−</mo><mi>𝐗</mi><mi>𝛃</mi><mo stretchy="true" form="postfix">∥</mo></mrow><mn>2</mn><mn>2</mn></msubsup><mo>+</mo><mi>λ</mi><msub><mrow><mo stretchy="true" form="prefix">‖</mo><mi>𝛃</mi><mo stretchy="true" form="postfix">‖</mo></mrow><mn>1</mn></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">
+L_\lambda(\boldsymbol\beta)
+=\frac{1}{2n}\left\lVert
+\widetilde{\mathbf y}-\mathbf X\boldsymbol\beta
+\right\rVert_2^2
++\lambda\lVert\boldsymbol\beta\rVert_1,
+</annotation></semantics></math></p>
+<p>where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐗</mi><mo>∈</mo><msup><mi>ℝ</mi><mrow><mi>n</mi><mo>×</mo><mn>30</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\mathbf X\in\mathbb R^{n\times30}</annotation></semantics></math> contains the centered and standardized covariates and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>𝐲</mi><mo accent="true">̃</mo></mover><annotation encoding="application/x-tex">\widetilde{\mathbf y}</annotation></semantics></math> is the centered training response. Select the penalty by ten-fold cross-validation over 41 logarithmically spaced values from <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>4</mn></mrow></msup><annotation encoding="application/x-tex">10^{-4}</annotation></semantics></math> to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>. Estimate all means and scales using only the training portion of each fold, with divisor equal to that portion’s sample size. After selecting the penalty, refit on all training observations and apply the fitted transformations unchanged to the test observations. Do not add nonlinear terms to the lasso model.</p>
+<ol type="a">
+<li><p>Fit both methods in each setting. Use the same training and test data for the two methods within a setting. Report their test MSE values in one table, together with the selected lasso penalty and the number of nonzero lasso slopes. You only need to generate one dataset for each setting; repeated simulations are not required.</p></li>
+<li><p>Compare the results between the two settings. Explain how correlation can change the usefulness of Euclidean neighborhoods, and why lasso does not use all covariates in the same way as KNN.</p></li>
+<li><p>The response model contains <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>X</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\sin(X_2)</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>X</mi><mn>3</mn><mn>2</mn></msubsup><annotation encoding="application/x-tex">X_3^2</annotation></semantics></math>, but the lasso fit uses only linear terms. Explain how this difference affects the comparison. Would the results justify a general claim that correlation always helps KNN, or that one method is always better? Explain why.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="solution-1" class="level3">
+<h3 class="anchored" data-anchor-id="solution-1">Solution</h3>
+<p><strong>a.</strong> We compare the two methods on the same observations within each setting. KNN uses all 30 covariates when finding neighbors. Lasso can set slopes to zero, but it is restricted to a linear prediction rule. The following code selects the lasso penalty using training data only.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset sync-code-panels" data-group="homework-05-language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content sync-code-panels" data-group="homework-05-language">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FNN)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">43252</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">400</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">41</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Setting =</span> <span class="fu">c</span>(<span class="st">"Independent"</span>, <span class="st">"Correlated"</span>),</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">KNN_MSE =</span> <span class="cn">NA_real_</span>, <span class="at">Lasso_MSE =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Lambda =</span> <span class="cn">NA_real_</span>, <span class="at">Nonzero =</span> <span class="cn">NA_integer_</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  Sigma <span class="ot">&lt;-</span> <span class="fu">diag</span>(p)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (l <span class="sc">==</span> <span class="dv">2</span>) Sigma <span class="ot">&lt;-</span> <span class="fl">0.8</span> <span class="sc">+</span> <span class="fl">0.2</span> <span class="sc">*</span> <span class="fu">diag</span>(p)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>((n <span class="sc">+</span> <span class="dv">1000</span>) <span class="sc">*</span> p), <span class="at">ncol =</span> p) <span class="sc">%*%</span> <span class="fu">chol</span>(Sigma)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> X[, <span class="dv">1</span>] <span class="sc">+</span> <span class="fu">sin</span>(X[, <span class="dv">2</span>]) <span class="sc">-</span> <span class="fl">0.3</span> <span class="sc">*</span> X[, <span class="dv">3</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n <span class="sc">+</span> <span class="dv">1000</span>, <span class="at">sd =</span> <span class="fl">0.1</span>)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  test.X <span class="ot">&lt;-</span> X[(n <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(n <span class="sc">+</span> <span class="dv">1000</span>), ]</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  test.y <span class="ot">&lt;-</span> y[(n <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(n <span class="sc">+</span> <span class="dv">1000</span>)]</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> X[<span class="dv">1</span><span class="sc">:</span>n, ]</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> y[<span class="dv">1</span><span class="sc">:</span>n]</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  knn.fit <span class="ot">&lt;-</span> <span class="fu">knn.reg</span>(X, test.X, y, <span class="at">k =</span> <span class="dv">5</span>, <span class="at">algorithm =</span> <span class="st">"brute"</span>)</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  results<span class="sc">$</span>KNN_MSE[l] <span class="ot">&lt;-</span> <span class="fu">mean</span>((test.y <span class="sc">-</span> knn.fit<span class="sc">$</span>pred)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Estimate means and scales separately in each training fold.</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>  fold <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">each =</span> n <span class="sc">/</span> <span class="dv">10</span>))</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>  cv.mse <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA_real_</span>, <span class="at">nrow =</span> <span class="dv">10</span>, <span class="at">ncol =</span> <span class="fu">length</span>(lambda))</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (m <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    X.mean <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(X[fold <span class="sc">!=</span> m, ])</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    X.fit <span class="ot">&lt;-</span> <span class="fu">sweep</span>(X[fold <span class="sc">!=</span> m, ], <span class="dv">2</span>, X.mean, <span class="st">"-"</span>)</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    X.sd <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">colMeans</span>(X.fit<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>    X.fit <span class="ot">&lt;-</span> <span class="fu">sweep</span>(X.fit, <span class="dv">2</span>, X.sd, <span class="st">"/"</span>)</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>    X.valid <span class="ot">&lt;-</span> <span class="fu">sweep</span>(X[fold <span class="sc">==</span> m, ], <span class="dv">2</span>, X.mean, <span class="st">"-"</span>)</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    X.valid <span class="ot">&lt;-</span> <span class="fu">sweep</span>(X.valid, <span class="dv">2</span>, X.sd, <span class="st">"/"</span>)</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    y.mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[fold <span class="sc">!=</span> m])</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>    lasso.fit <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>      X.fit, y[fold <span class="sc">!=</span> m] <span class="sc">-</span> y.mean, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> lambda,</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">intercept =</span> <span class="cn">FALSE</span>, <span class="at">standardize =</span> <span class="cn">FALSE</span></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>    y.hat <span class="ot">&lt;-</span> <span class="fu">predict</span>(lasso.fit, <span class="at">newx =</span> X.valid, <span class="at">s =</span> lambda) <span class="sc">+</span> y.mean</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>    cv.mse[m, ] <span class="ot">&lt;-</span> <span class="fu">colMeans</span>((y[fold <span class="sc">==</span> m] <span class="sc">-</span> y.hat)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>  lambda.min <span class="ot">&lt;-</span> lambda[<span class="fu">which.min</span>(<span class="fu">colMeans</span>(cv.mse))]</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Refit using all training observations and keep these transformations.</span></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>  X.mean <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(X)</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>  X.fit <span class="ot">&lt;-</span> <span class="fu">sweep</span>(X, <span class="dv">2</span>, X.mean, <span class="st">"-"</span>)</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>  X.sd <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">colMeans</span>(X.fit<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>  X.fit <span class="ot">&lt;-</span> <span class="fu">sweep</span>(X.fit, <span class="dv">2</span>, X.sd, <span class="st">"/"</span>)</span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>  test.X.fit <span class="ot">&lt;-</span> <span class="fu">sweep</span>(test.X, <span class="dv">2</span>, X.mean, <span class="st">"-"</span>)</span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>  test.X.fit <span class="ot">&lt;-</span> <span class="fu">sweep</span>(test.X.fit, <span class="dv">2</span>, X.sd, <span class="st">"/"</span>)</span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>  y.mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>  lasso.fit <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>    X.fit, y <span class="sc">-</span> y.mean, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> lambda,</span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">FALSE</span>, <span class="at">standardize =</span> <span class="cn">FALSE</span></span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>  test.pred <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(</span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(lasso.fit, <span class="at">newx =</span> test.X.fit, <span class="at">s =</span> lambda.min)</span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> y.mean</span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>  results<span class="sc">$</span>Lasso_MSE[l] <span class="ot">&lt;-</span> <span class="fu">mean</span>((test.y <span class="sc">-</span> test.pred)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>  results<span class="sc">$</span>Lambda[l] <span class="ot">&lt;-</span> lambda.min</span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>  results<span class="sc">$</span>Nonzero[l] <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">coef</span>(lasso.fit, <span class="at">s =</span> lambda.min)[<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>)</span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(results, <span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Setting</th>
+<th style="text-align: right;">KNN_MSE</th>
+<th style="text-align: right;">Lasso_MSE</th>
+<th style="text-align: right;">Lambda</th>
+<th style="text-align: right;">Nonzero</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Independent</td>
+<td style="text-align: right;">0.5565</td>
+<td style="text-align: right;">0.2602</td>
+<td style="text-align: right;">0.0251</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Correlated</td>
+<td style="text-align: right;">0.1609</td>
+<td style="text-align: right;">0.2259</td>
+<td style="text-align: right;">0.0100</td>
+<td style="text-align: right;">16</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">43252</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">400</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>lambda_grid <span class="op">=</span> np.logspace(<span class="dv">0</span>, <span class="op">-</span><span class="dv">4</span>, <span class="dv">41</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Setting"</span>: [<span class="st">"Independent"</span>, <span class="st">"Correlated"</span>],</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"KNN_MSE"</span>: np.nan, <span class="st">"Lasso_MSE"</span>: np.nan,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Lambda"</span>: np.nan, <span class="st">"Nonzero"</span>: <span class="dv">0</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    Sigma <span class="op">=</span> np.eye(p)</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> l <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        Sigma <span class="op">=</span> <span class="fl">0.8</span> <span class="op">+</span> <span class="fl">0.2</span> <span class="op">*</span> np.eye(p)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.random.normal(size<span class="op">=</span>(n <span class="op">+</span> <span class="dv">1000</span>, p)) <span class="op">@</span> np.linalg.cholesky(Sigma).T</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> (<span class="fl">0.5</span> <span class="op">*</span> X[:, <span class="dv">0</span>] <span class="op">+</span> np.sin(X[:, <span class="dv">1</span>]) <span class="op">-</span> <span class="fl">0.3</span> <span class="op">*</span> X[:, <span class="dv">2</span>]<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>         <span class="op">+</span> np.random.normal(scale<span class="op">=</span><span class="fl">0.1</span>, size<span class="op">=</span>n <span class="op">+</span> <span class="dv">1000</span>))</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    test_X <span class="op">=</span> X[n:, :]</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    test_y <span class="op">=</span> y[n:]</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> X[:n, :]</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> y[:n]</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    knn_fit <span class="op">=</span> KNeighborsRegressor(n_neighbors<span class="op">=</span><span class="dv">5</span>, weights<span class="op">=</span><span class="st">"uniform"</span>,</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>                                  algorithm<span class="op">=</span><span class="st">"brute"</span>)</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    knn_fit.fit(X, y)</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    results.loc[l, <span class="st">"KNN_MSE"</span>] <span class="op">=</span> np.mean((test_y <span class="op">-</span> knn_fit.predict(test_X))<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Estimate means and scales separately in each training fold.</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    fold <span class="op">=</span> np.random.permutation(np.repeat(np.arange(<span class="dv">10</span>), n <span class="op">//</span> <span class="dv">10</span>))</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    cv_mse <span class="op">=</span> np.zeros((<span class="dv">10</span>, <span class="bu">len</span>(lambda_grid)))</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>        X_mean <span class="op">=</span> X[fold <span class="op">!=</span> m, :].mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>        X_sd <span class="op">=</span> X[fold <span class="op">!=</span> m, :].std(axis<span class="op">=</span><span class="dv">0</span>, ddof<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>        X_fit <span class="op">=</span> (X[fold <span class="op">!=</span> m, :] <span class="op">-</span> X_mean) <span class="op">/</span> X_sd</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>        X_valid <span class="op">=</span> (X[fold <span class="op">==</span> m, :] <span class="op">-</span> X_mean) <span class="op">/</span> X_sd</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>        y_mean <span class="op">=</span> y[fold <span class="op">!=</span> m].mean()</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> h <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(lambda_grid)):</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>            lasso_fit <span class="op">=</span> Lasso(alpha<span class="op">=</span>lambda_grid[h], fit_intercept<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>                              tol<span class="op">=</span><span class="fl">1e-8</span>, max_iter<span class="op">=</span><span class="dv">100000</span>)</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>            lasso_fit.fit(X_fit, y[fold <span class="op">!=</span> m] <span class="op">-</span> y_mean)</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>            y_hat <span class="op">=</span> lasso_fit.predict(X_valid) <span class="op">+</span> y_mean</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>            cv_mse[m, h] <span class="op">=</span> np.mean((y[fold <span class="op">==</span> m] <span class="op">-</span> y_hat)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>    lambda_min <span class="op">=</span> lambda_grid[np.argmin(cv_mse.mean(axis<span class="op">=</span><span class="dv">0</span>))]</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Refit using all training observations and keep these transformations.</span></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>    X_mean <span class="op">=</span> X.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>    X_sd <span class="op">=</span> X.std(axis<span class="op">=</span><span class="dv">0</span>, ddof<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>    X_fit <span class="op">=</span> (X <span class="op">-</span> X_mean) <span class="op">/</span> X_sd</span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>    test_X_fit <span class="op">=</span> (test_X <span class="op">-</span> X_mean) <span class="op">/</span> X_sd</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>    y_mean <span class="op">=</span> y.mean()</span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>    lasso_fit <span class="op">=</span> Lasso(alpha<span class="op">=</span>lambda_min, fit_intercept<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>                      tol<span class="op">=</span><span class="fl">1e-8</span>, max_iter<span class="op">=</span><span class="dv">100000</span>)</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>    lasso_fit.fit(X_fit, y <span class="op">-</span> y_mean)</span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>    test_pred <span class="op">=</span> lasso_fit.predict(test_X_fit) <span class="op">+</span> y_mean</span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>    results.loc[l, <span class="st">"Lasso_MSE"</span>] <span class="op">=</span> np.mean((test_y <span class="op">-</span> test_pred)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>    results.loc[l, <span class="st">"Lambda"</span>] <span class="op">=</span> lambda_min</span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>    results.loc[l, <span class="st">"Nonzero"</span>] <span class="op">=</span> np.count_nonzero(lasso_fit.coef_)</span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results.<span class="bu">round</span>(<span class="dv">4</span>).to_string(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Setting  KNN_MSE  Lasso_MSE  Lambda  Nonzero
+Independent   0.5640     0.2344  0.0316        9
+ Correlated   0.1729     0.2421  0.0316        2</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The scales use divisor equal to the number of observations being fitted. Centering the response and adding its mean back gives an unpenalized intercept. Here <code>glmnet</code>’s <code>lambda</code> and scikit-learn’s <code>alpha</code> both use the penalty in the stated <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">1/(2n)</annotation></semantics></math> objective; <code>glmnet</code>’s <code>alpha = 1</code> requests lasso. R and Python generate different observations, so their numerical results need not match.</p>
+<p><strong>b.</strong> In these realizations, lasso has the smaller test MSE with independent covariates, whereas KNN has the smaller test MSE with correlated covariates. With independent covariates, many coordinates that do not affect the response contribute to Euclidean distance. The nearest observations in 30-dimensional Euclidean distance need not be the nearest in the three relevant coordinates.</p>
+<p>With strong positive correlation, the covariates share substantial variation. Euclidean neighborhoods can then be more informative about the response-relevant coordinates. Lasso treats covariates differently: it estimates a separate slope for each and can set some slopes to zero. In the correlated setting, a covariate outside the first three can also act as a proxy for a relevant covariate, and several correlated covariates can compete in the fitted model.</p>
+<p><strong>c.</strong> Lasso uses <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mn>2</mn></msub><annotation encoding="application/x-tex">X_2</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mn>3</mn></msub><annotation encoding="application/x-tex">X_3</annotation></semantics></math> as linear terms, so it cannot reproduce <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>X</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\sin(X_2)</annotation></semantics></math> or the quadratic contribution <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>0.3</mn><msubsup><mi>X</mi><mn>3</mn><mn>2</mn></msubsup></mrow><annotation encoding="application/x-tex">-0.3X_3^2</annotation></semantics></math>. Its intercept can account for the average quadratic contribution, but not its variation across observations. KNN does not impose a linear form, although its accuracy depends on whether it finds informative neighbors. The comparison therefore reflects both neighborhood quality and the restrictions of the fitted lasso model. Two single datasets do not show that correlation always helps KNN or that either method is universally better.</p>
+</section>
+</section>
+<section id="question-3-observed-dimension-and-latent-dimension" class="level2">
+<h2 class="anchored" data-anchor-id="question-3-observed-dimension-and-latent-dimension">Question 3: Observed dimension and latent dimension</h2>
+<section id="original-question-2" class="level3">
+<h3 class="anchored" data-anchor-id="original-question-2">Original question</h3>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The lecture’s handwritten digit example shows that KNN can work with many measured covariates. We will use a simulation to investigate why the structure of those covariates matters.</p>
+<p>Let <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">p=100</annotation></semantics></math> be the number of observed covariates and let <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math> be the number of latent variables. For each observation, generate</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐗</mi><mi>i</mi></msub><mo>=</mo><mi>𝐀</mi><msub><mi>𝐙</mi><mi>i</mi></msub><mo>+</mo><msub><mi>𝛈</mi><mi>i</mi></msub><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>Y</mi><mi>i</mi></msub><mo>=</mo><msub><mi>Z</mi><mrow><mi>i</mi><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>Z</mi><mrow><mi>i</mi><mn>2</mn></mrow></msub><mo>+</mo><msub><mi>ϵ</mi><mi>i</mi></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">
+\mathbf X_i=\mathbf A\mathbf Z_i+\boldsymbol\eta_i,
+\qquad
+Y_i=Z_{i1}+Z_{i2}+\epsilon_i,
+</annotation></semantics></math></p>
+<p>where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐀</mi><mo>∈</mo><msup><mi>ℝ</mi><mrow><mn>100</mn><mo>×</mo><mi>m</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\mathbf A\in\mathbb R^{100\times m}</annotation></semantics></math> has independent entries from Uniform<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mi>−</mi><mn>2</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[-2,2]</annotation></semantics></math>. The entries of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐙</mi><mi>i</mi></msub><mo>∈</mo><msup><mi>ℝ</mi><mi>m</mi></msup></mrow><annotation encoding="application/x-tex">\mathbf Z_i\in\mathbb R^m</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝛈</mi><mi>i</mi></msub><mo>∈</mo><msup><mi>ℝ</mi><mn>100</mn></msup></mrow><annotation encoding="application/x-tex">\boldsymbol\eta_i\in\mathbb R^{100}</annotation></semantics></math>, and the scalar <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ϵ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\epsilon_i</annotation></semantics></math>, are independent standard normal variables, also independent of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐀</mi><annotation encoding="application/x-tex">\mathbf A</annotation></semantics></math>. Generate <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐀</mi><annotation encoding="application/x-tex">\mathbf A</annotation></semantics></math> once and use it for all training and test observations in that dataset.</p>
+<p>Compare <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">m=3</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">m=30</annotation></semantics></math>. In each setting, generate 200 training observations and 200 independent test observations. Fit KNN using only the 100 observed covariates in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐗</mi><annotation encoding="application/x-tex">\mathbf X</annotation></semantics></math>, with Euclidean distance on their generated scale. The latent variables in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐙</mi><annotation encoding="application/x-tex">\mathbf Z</annotation></semantics></math> are used to generate the data but are not available to the fitted model. Consider <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>2</mn><mo>,</mo><mn>10</mn><mo>,</mo><mn>18</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>82</mn></mrow><annotation encoding="application/x-tex">k=2,10,18,\ldots,82</annotation></semantics></math>.</p>
+<ol type="a">
+<li><p>Generate one dataset for each value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>. Fit KNN for every value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> and calculate test MSE. Within a setting, use the same training and test observations for all values of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>.</p></li>
+<li><p>Repeat the complete experiment 50 times, generating a new <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐀</mi><annotation encoding="application/x-tex">\mathbf A</annotation></semantics></math> and new observations in each repetition. Plot average test MSE against <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>, with one curve for each value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>. These curves compare the specified choices of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> in a controlled simulation; they are not a cross-validation procedure for selecting a final model.</p></li>
+<li><p>Both settings have 100 observed covariates, and the response depends on only two latent variables. Explain why their KNN performance can still differ. What role does the noise <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝛈</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\boldsymbol\eta_i</annotation></semantics></math> play, and why are the observed data not confined exactly to an <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>-dimensional linear space?</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="solution-2" class="level3">
+<h3 class="anchored" data-anchor-id="solution-2">Solution</h3>
+<p><strong>a.</strong> The observed dimension is 100 in both settings. We generate the training and test observations using the same matrix <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐀</mi><annotation encoding="application/x-tex">\mathbf A</annotation></semantics></math>, then use only <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐗</mi><annotation encoding="application/x-tex">\mathbf X</annotation></semantics></math> to fit KNN.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset sync-code-panels" data-group="homework-05-language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content sync-code-panels" data-group="homework-05-language">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FNN)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">43254</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>m_values <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">30</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>k_values <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">82</span>, <span class="dv">8</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>test_mse <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> <span class="fu">length</span>(k_values), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> m_values) {</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(p<span class="sc">*</span>m, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">nrow =</span> p, <span class="at">ncol =</span> m)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">400</span><span class="sc">*</span>m), <span class="at">nrow =</span> <span class="dv">400</span>, <span class="at">ncol =</span> m)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">=</span> Z <span class="sc">%*%</span> <span class="fu">t</span>(A) <span class="sc">+</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">400</span><span class="sc">*</span>p), <span class="at">nrow =</span> <span class="dv">400</span>, <span class="at">ncol =</span> p)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">=</span> Z[, <span class="dv">1</span>] <span class="sc">+</span> Z[, <span class="dv">2</span>] <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">400</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (k <span class="cf">in</span> k_values) {</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    knn.fit <span class="ot">=</span> <span class="fu">knn.reg</span>(<span class="at">train =</span> X[<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>, ], <span class="at">test =</span> X[<span class="dv">201</span><span class="sc">:</span><span class="dv">400</span>, ],</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">y =</span> y[<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>], <span class="at">k =</span> k, <span class="at">algorithm =</span> <span class="st">"brute"</span>)</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    test_mse[<span class="fu">match</span>(k, k_values), <span class="fu">match</span>(m, m_values)] <span class="ot">=</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mean</span>((y[<span class="dv">201</span><span class="sc">:</span><span class="dv">400</span>] <span class="sc">-</span> knn.fit<span class="sc">$</span>pred)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">k =</span> k_values, <span class="at">m3 =</span> test_mse[, <span class="dv">1</span>], <span class="at">m30 =</span> test_mse[, <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    k       m3      m30
+1   2 1.449265 3.457456
+2  10 1.253345 2.583372
+3  18 1.292923 2.533071
+4  26 1.379955 2.524038
+5  34 1.448416 2.512187
+6  42 1.505892 2.560783
+7  50 1.590057 2.562911
+8  58 1.660186 2.593970
+9  66 1.739597 2.607162
+10 74 1.816963 2.651181
+11 82 1.871802 2.672724</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">43254</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>m_values <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">30</span>]</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>k_values <span class="op">=</span> np.arange(<span class="dv">2</span>, <span class="dv">83</span>, <span class="dv">8</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>test_mse <span class="op">=</span> np.full((<span class="bu">len</span>(k_values), <span class="dv">2</span>), np.nan)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s, m <span class="kw">in</span> <span class="bu">enumerate</span>(m_values):</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.random.uniform(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, size<span class="op">=</span>(p, m))</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    Z <span class="op">=</span> np.random.normal(size<span class="op">=</span>(<span class="dv">400</span>, m))</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> Z <span class="op">@</span> A.T <span class="op">+</span> np.random.normal(size<span class="op">=</span>(<span class="dv">400</span>, p))</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> Z[:, <span class="dv">0</span>] <span class="op">+</span> Z[:, <span class="dv">1</span>] <span class="op">+</span> np.random.normal(size<span class="op">=</span><span class="dv">400</span>)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l, k <span class="kw">in</span> <span class="bu">enumerate</span>(k_values):</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>        knn_fit <span class="op">=</span> KNeighborsRegressor(n_neighbors<span class="op">=</span><span class="bu">int</span>(k), weights<span class="op">=</span><span class="st">"uniform"</span>,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>                                      algorithm<span class="op">=</span><span class="st">"brute"</span>)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>        knn_fit.fit(X[:<span class="dv">200</span>], y[:<span class="dv">200</span>])</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>        test_mse[l, s] <span class="op">=</span> np.mean((y[<span class="dv">200</span>:] <span class="op">-</span> knn_fit.predict(X[<span class="dv">200</span>:]))<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.DataFrame({<span class="st">"k"</span>: k_values, <span class="st">"m=3"</span>: test_mse[:, <span class="dv">0</span>],</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"m=30"</span>: test_mse[:, <span class="dv">1</span>]}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     k       m=3      m=30
+0    2  1.497394  2.533618
+1   10  1.139600  2.097571
+2   18  1.211048  1.965676
+3   26  1.285690  1.926529
+4   34  1.345035  1.958095
+5   42  1.405158  2.011077
+6   50  1.477098  2.058123
+7   58  1.551437  2.098877
+8   66  1.609162  2.117440
+9   74  1.672598  2.148940
+10  82  1.732583  2.179772</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>b.</strong> The following loop repeats the entire experiment, including generation of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐀</mi><annotation encoding="application/x-tex">\mathbf A</annotation></semantics></math>. The result array stores repetitions, choices of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>, and the two latent dimensions along its three axes.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset sync-code-panels" data-group="homework-05-language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content sync-code-panels" data-group="homework-05-language">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>nsim <span class="ot">=</span> <span class="dv">50</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>test_mse <span class="ot">=</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim =</span> <span class="fu">c</span>(nsim, <span class="fu">length</span>(k_values), <span class="dv">2</span>))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nsim) {</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (m <span class="cf">in</span> m_values) {</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    A <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(p<span class="sc">*</span>m, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">nrow =</span> p, <span class="at">ncol =</span> m)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    Z <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">400</span><span class="sc">*</span>m), <span class="at">nrow =</span> <span class="dv">400</span>, <span class="at">ncol =</span> m)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">=</span> Z <span class="sc">%*%</span> <span class="fu">t</span>(A) <span class="sc">+</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">400</span><span class="sc">*</span>p), <span class="at">nrow =</span> <span class="dv">400</span>, <span class="at">ncol =</span> p)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">=</span> Z[, <span class="dv">1</span>] <span class="sc">+</span> Z[, <span class="dv">2</span>] <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">400</span>)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k <span class="cf">in</span> k_values) {</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>      knn.fit <span class="ot">=</span> <span class="fu">knn.reg</span>(<span class="at">train =</span> X[<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>, ], <span class="at">test =</span> X[<span class="dv">201</span><span class="sc">:</span><span class="dv">400</span>, ],</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">y =</span> y[<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>], <span class="at">k =</span> k, <span class="at">algorithm =</span> <span class="st">"brute"</span>)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>      test_mse[l, <span class="fu">match</span>(k, k_values), <span class="fu">match</span>(m, m_values)] <span class="ot">=</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mean</span>((y[<span class="dv">201</span><span class="sc">:</span><span class="dv">400</span>] <span class="sc">-</span> knn.fit<span class="sc">$</span>pred)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>mean_mse <span class="ot">=</span> <span class="fu">apply</span>(test_mse, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>), mean)</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">k =</span> k_values, <span class="at">m3 =</span> mean_mse[, <span class="dv">1</span>], <span class="at">m30 =</span> mean_mse[, <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    k       m3      m30
+1   2 1.634822 3.062662
+2  10 1.288062 2.349524
+3  18 1.321139 2.345840
+4  26 1.372628 2.378219
+5  34 1.437850 2.412709
+6  42 1.496497 2.455664
+7  50 1.554715 2.492101
+8  58 1.615062 2.527212
+9  66 1.673644 2.556039
+10 74 1.736733 2.589309
+11 82 1.800274 2.618853</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(k_values, mean_mse, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">lty =</span> <span class="dv">1</span>,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"deepskyblue3"</span>, <span class="st">"darkorange"</span>),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Number of neighbors k"</span>, <span class="at">ylab =</span> <span class="st">"Average test MSE"</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"m = 3"</span>, <span class="st">"m = 30"</span>),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"deepskyblue3"</span>, <span class="st">"darkorange"</span>), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="homework-05_files/figure-html/hw5-q3-plot-r-1.png" class="img-fluid figure-img" alt="Average test MSE across 50 repetitions for latent dimensions 3 and 30, both observed through 100 covariates." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>nsim <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>test_mse <span class="op">=</span> np.full((nsim, <span class="bu">len</span>(k_values), <span class="dv">2</span>), np.nan)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(nsim):</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> s, m <span class="kw">in</span> <span class="bu">enumerate</span>(m_values):</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>        A <span class="op">=</span> np.random.uniform(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, size<span class="op">=</span>(p, m))</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        Z <span class="op">=</span> np.random.normal(size<span class="op">=</span>(<span class="dv">400</span>, m))</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        X <span class="op">=</span> Z <span class="op">@</span> A.T <span class="op">+</span> np.random.normal(size<span class="op">=</span>(<span class="dv">400</span>, p))</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> Z[:, <span class="dv">0</span>] <span class="op">+</span> Z[:, <span class="dv">1</span>] <span class="op">+</span> np.random.normal(size<span class="op">=</span><span class="dv">400</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> h, k <span class="kw">in</span> <span class="bu">enumerate</span>(k_values):</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>            knn_fit <span class="op">=</span> KNeighborsRegressor(n_neighbors<span class="op">=</span><span class="bu">int</span>(k), weights<span class="op">=</span><span class="st">"uniform"</span>,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                                          algorithm<span class="op">=</span><span class="st">"brute"</span>)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>            knn_fit.fit(X[:<span class="dv">200</span>], y[:<span class="dv">200</span>])</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>            test_mse[l, h, s] <span class="op">=</span> np.mean((y[<span class="dv">200</span>:] <span class="op">-</span> knn_fit.predict(X[<span class="dv">200</span>:]))<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>mean_mse <span class="op">=</span> test_mse.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.DataFrame({<span class="st">"k"</span>: k_values, <span class="st">"m=3"</span>: mean_mse[:, <span class="dv">0</span>],</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"m=30"</span>: mean_mse[:, <span class="dv">1</span>]}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     k       m=3      m=30
+0    2  1.690342  3.071050
+1   10  1.303540  2.312968
+2   18  1.330768  2.289224
+3   26  1.380082  2.311756
+4   34  1.432114  2.333897
+5   42  1.488269  2.368583
+6   50  1.544620  2.398708
+7   58  1.600520  2.425605
+8   66  1.654332  2.456120
+9   74  1.711747  2.483537
+10  82  1.773539  2.511958</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">4.5</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>plt.plot(k_values, mean_mse[:, <span class="dv">0</span>], <span class="st">"o-"</span>, color<span class="op">=</span><span class="st">"deepskyblue"</span>, label<span class="op">=</span><span class="st">"m = 3"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>plt.plot(k_values, mean_mse[:, <span class="dv">1</span>], <span class="st">"^-"</span>, color<span class="op">=</span><span class="st">"darkorange"</span>, label<span class="op">=</span><span class="st">"m = 30"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Number of neighbors k"</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Average test MSE"</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="homework-05_files/figure-html/hw5-q3-plot-python-1.png" class="img-fluid figure-img" alt="Average test MSE across 50 repetitions for latent dimensions 3 and 30, both observed through 100 covariates." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">m=3</annotation></semantics></math> curve has lower average test MSE in this experiment. Averaging a few neighbors reduces noise, while very large neighborhoods blur differences in the regression function. With <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">m=30</annotation></semantics></math>, even a small neighborhood is less local in the latent variables. The two curves need not have their minima at the same <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>. These are simulation averages over independent experiments, not validation scores used to choose a model for a final test set.</p>
+<p><strong>c.</strong> When <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">m=3</annotation></semantics></math>, most of the structured variation in 100 covariates is driven by three latent variables. With <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">m=30</annotation></semantics></math>, distance also responds to many latent directions that do not enter the response. Two observations close in the two relevant latent coordinates may be far apart in those other directions, making Euclidean neighborhoods less useful for predicting <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>.</p>
+<p>The measurement noise <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝛈</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\boldsymbol\eta_i</annotation></semantics></math> perturbs every observed coordinate and can change which observations are nearest. Without it, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐀</mi><msub><mi>𝐙</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf A\mathbf Z_i</annotation></semantics></math> lies in the column space of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐀</mi><annotation encoding="application/x-tex">\mathbf A</annotation></semantics></math>, of dimension at most <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>. With independent noise in all 100 coordinates, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐗</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\mathbf X_i</annotation></semantics></math> is not confined to that space. Thus the simulation concerns a lower-dimensional signal with noise, not data lying exactly in an <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>-dimensional subspace. Keeping the response dependent on two latent variables does not make distances in all observed coordinates equally informative in the two settings.</p>
+</section>
+</section>
+<section id="question-4-classify-handwritten-digits" class="level2">
+<h2 class="anchored" data-anchor-id="question-4-classify-handwritten-digits">Question 4: Classify handwritten digits</h2>
+<section id="original-question-3" class="level3">
+<h3 class="anchored" data-anchor-id="original-question-3">Original question</h3>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Use <code>zip.train</code> and <code>zip.test</code> from the R package <code>ElemStatLearn</code>, as in the lecture. The package has been retired from the active CRAN repository. If needed, install the <a href="https://cran.r-project.org/src/contrib/Archive/ElemStatLearn/ElemStatLearn_2015.6.26.2.tar.gz">archived package</a> into your usual R library, then load the two datasets. Python users can use the course copies of the same <a href="https://teazrq.github.io/stat432rpy/data/knn/zip-train.csv.gz">training data</a> and <a href="https://teazrq.github.io/stat432rpy/data/knn/zip-test.csv.gz">test data</a>. These compressed CSV files have no headers and are included in the homework ZIP under <code>data/knn</code>. Run the Python code from the folder containing <code>data</code>.</p>
+<p>Each image has <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mo>×</mo><mn>16</mn><mo>=</mo><mn>256</mn></mrow><annotation encoding="application/x-tex">16\times16=256</annotation></semantics></math> pixel values. The first column is the digit label and the remaining columns are the pixel values. Use the first 1,000 rows of <code>zip.train</code> and the first 500 rows of <code>zip.test</code>. Use the original pixel values without standardization, and do not include the digit label in a distance calculation.</p>
+<p>For a test image <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐱</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\mathbf x_0</annotation></semantics></math> and a training image <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐱</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\mathbf x_i</annotation></semantics></math>, the two distances are</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>E</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>𝐱</mi><mn>0</mn></msub><mo>,</mo><msub><mi>𝐱</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msqrt><mrow><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mn>256</mn></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mrow><mn>0</mn><mi>j</mi></mrow></msub><mo>−</mo><msub><mi>x</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow></msqrt><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>d</mi><mi>M</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>𝐱</mi><mn>0</mn></msub><mo>,</mo><msub><mi>𝐱</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mn>256</mn></munderover><mo stretchy="false" form="prefix">|</mo><msub><mi>x</mi><mrow><mn>0</mn><mi>j</mi></mrow></msub><mo>−</mo><msub><mi>x</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false" form="prefix">|</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+d_E(\mathbf x_0,\mathbf x_i)
+=\sqrt{\sum_{j=1}^{256}(x_{0j}-x_{ij})^2},
+\qquad
+d_M(\mathbf x_0,\mathbf x_i)
+=\sum_{j=1}^{256}|x_{0j}-x_{ij}|.
+</annotation></semantics></math></p>
+<ol type="a">
+<li><p>Write a 5NN classification function that allows either Euclidean or Manhattan distance. For each test image, calculate its distances to the training images directly, find the five nearest, and return the most frequent digit label. Break distance ties by the smaller training row number and voting ties by the smallest digit. Do not use a built-in distance or KNN function for this part.</p></li>
+<li><p>Apply the classifier to all 500 test images using each distance. For each fit, report the test classification error and a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mo>×</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">10\times10</annotation></semantics></math> confusion matrix, with rows representing predicted digits and columns representing true digits. Keep all digit labels from 0 through 9 in the matrix, including any with a zero count. Which digits are most often confused with one another?</p></li>
+<li><p>For Euclidean distance, display three incorrectly classified test images, together with their true and predicted labels. Comment on whether the mistakes are visually understandable. Compare the overall results of the two distance measures. Can they have similar total error while making mistakes on different images? Use your predictions to support your answer.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="solution-3" class="level3">
+<h3 class="anchored" data-anchor-id="solution-3">Solution</h3>
+<p>With the specified training and test rows, Euclidean 5NN makes 61 errors out of 500, and Manhattan 5NN makes 69. Both recognize most digits, but some of their errors occur on different images.</p>
+<p><strong>a. Write the classifier.</strong> For each test image, calculate the distances, sort the training rows, and count the labels of the five closest images. Passing either of the distance functions below changes the distance without changing the remaining classification rule.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset sync-code-panels" data-group="homework-05-language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content sync-code-panels" data-group="homework-05-language">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ElemStatLearn)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>euclidean_distance <span class="ot">&lt;-</span> <span class="cf">function</span>(x0, X) {</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">rowSums</span>(<span class="fu">sweep</span>(X, <span class="dv">2</span>, x0, <span class="st">"-"</span>)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>manhattan_distance <span class="ot">&lt;-</span> <span class="cf">function</span>(x0, X) {</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowSums</span>(<span class="fu">abs</span>(<span class="fu">sweep</span>(X, <span class="dv">2</span>, x0, <span class="st">"-"</span>)))</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> zip.train[<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> zip.train[<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="dv">1</span>]</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>X_test <span class="ot">&lt;-</span> zip.test[<span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>, <span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>y_test <span class="ot">&lt;-</span> zip.test[<span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>, <span class="dv">1</span>]</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>knn_classify <span class="ot">&lt;-</span> <span class="cf">function</span>(X, y, X_test, distance) {</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  y_hat <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="fu">nrow</span>(X_test))</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(X_test))) {</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    d <span class="ot">&lt;-</span> <span class="fu">distance</span>(X_test[i, ], X)</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    neighbors <span class="ot">&lt;-</span> <span class="fu">order</span>(d, <span class="fu">seq_len</span>(<span class="fu">nrow</span>(X)))[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    y_hat[i] <span class="ot">&lt;-</span> <span class="fu">which.max</span>(<span class="fu">tabulate</span>(y[neighbors] <span class="sc">+</span> <span class="dv">1</span>, <span class="at">nbins =</span> <span class="dv">10</span>)) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>  y_hat</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>y_hat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Euclidean =</span> <span class="fu">knn_classify</span>(X, y, X_test, euclidean_distance),</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>               <span class="at">Manhattan =</span> <span class="fu">knn_classify</span>(X, y, X_test, manhattan_distance))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>zip_train <span class="op">=</span> np.loadtxt(<span class="st">"data/knn/zip-train.csv.gz"</span>, delimiter<span class="op">=</span><span class="st">","</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>zip_test <span class="op">=</span> np.loadtxt(<span class="st">"data/knn/zip-test.csv.gz"</span>, delimiter<span class="op">=</span><span class="st">","</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> euclidean_distance(x0, X):</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.sqrt(np.<span class="bu">sum</span>((X <span class="op">-</span> x0)<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> manhattan_distance(x0, X):</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(np.<span class="bu">abs</span>(X <span class="op">-</span> x0), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> zip_train[:<span class="dv">1000</span>, <span class="dv">1</span>:]</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> zip_train[:<span class="dv">1000</span>, <span class="dv">0</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> zip_test[:<span class="dv">500</span>, <span class="dv">1</span>:]</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> zip_test[:<span class="dv">500</span>, <span class="dv">0</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> knn_classify(X, y, X_test, distance):</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    y_hat <span class="op">=</span> np.zeros(X_test.shape[<span class="dv">0</span>], dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(X_test.shape[<span class="dv">0</span>]):</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>        d <span class="op">=</span> distance(X_test[i], X)</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>        neighbors <span class="op">=</span> np.argsort(d, kind<span class="op">=</span><span class="st">"stable"</span>)[:<span class="dv">5</span>]</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>        y_hat[i] <span class="op">=</span> np.argmax(np.bincount(y[neighbors], minlength<span class="op">=</span><span class="dv">10</span>))</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y_hat</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>y_hat <span class="op">=</span> np.column_stack((knn_classify(X, y, X_test, euclidean_distance),</span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>                          knn_classify(X, y, X_test, manhattan_distance)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<p><strong>b. Evaluate classification.</strong> Each column of <code>y_hat</code> contains 500 predictions. The confusion matrices below have predicted digits in rows and true digits in columns.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset sync-code-panels" data-group="homework-05-language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content sync-code-panels" data-group="homework-05-language">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">colnames</span>(y_hat)[l], <span class="st">"test error:"</span>, <span class="fu">mean</span>(y_hat[, l] <span class="sc">!=</span> y_test), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">table</span>(<span class="at">Predicted =</span> <span class="fu">factor</span>(y_hat[, l], <span class="at">levels =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>),</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">True =</span> <span class="fu">factor</span>(y_test, <span class="at">levels =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>)))</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Euclidean test error: 0.122 
+         True
+Predicted   0   1   2   3   4   5   6   7   8   9
+        0 118   0   7   1   0   4   2   0   2   0
+        1   0  66   0   0   2   0   0   0   0   1
+        2   0   0  39   1   0   0   2   0   0   1
+        3   0   0   0  23   0   4   0   0   2   0
+        4   0   0   1   0  27   1   1   1   0   1
+        5   0   0   0   1   0  13   0   0   0   0
+        6   0   2   0   0   0   1  41   0   2   0
+        7   0   0   0   0   1   1   0  34   0   4
+        8   0   0   3   2   0   2   0   0  37   0
+        9   1   0   0   1   4   0   0   1   1  41
+Manhattan test error: 0.138 
+         True
+Predicted   0   1   2   3   4   5   6   7   8   9
+        0 118   0   6   1   0   5   3   0   4   0
+        1   0  67   2   0   2   0   1   0   0   1
+        2   0   0  35   0   0   0   2   0   0   0
+        3   0   0   1  24   0   4   0   0   2   0
+        4   0   0   1   1  27   1   0   1   0   1
+        5   0   0   0   1   0  11   0   0   0   0
+        6   0   1   0   0   0   2  40   0   2   0
+        7   0   0   2   1   1   0   0  34   0   5
+        8   0   0   2   0   0   3   0   0  34   0
+        9   1   0   1   1   4   0   0   1   2  41</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>([<span class="st">"Euclidean"</span>, <span class="st">"Manhattan"</span>][l],</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"test error:"</span>, np.mean(y_hat[:, l] <span class="op">!=</span> y_test))</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(pd.crosstab(pd.Series(y_hat[:, l], name<span class="op">=</span><span class="st">"Predicted"</span>),</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                      pd.Series(y_test, name<span class="op">=</span><span class="st">"True"</span>))</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>          .reindex(index<span class="op">=</span><span class="bu">range</span>(<span class="dv">10</span>), columns<span class="op">=</span><span class="bu">range</span>(<span class="dv">10</span>), fill_value<span class="op">=</span><span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Euclidean test error: 0.122
+True         0   1   2   3   4   5   6   7   8   9
+Predicted                                         
+0          118   0   7   1   0   4   2   0   2   0
+1            0  66   0   0   2   0   0   0   0   1
+2            0   0  39   1   0   0   2   0   0   1
+3            0   0   0  23   0   4   0   0   2   0
+4            0   0   1   0  27   1   1   1   0   1
+5            0   0   0   1   0  13   0   0   0   0
+6            0   2   0   0   0   1  41   0   2   0
+7            0   0   0   0   1   1   0  34   0   4
+8            0   0   3   2   0   2   0   0  37   0
+9            1   0   0   1   4   0   0   1   1  41
+Manhattan test error: 0.138
+True         0   1   2   3   4   5   6   7   8   9
+Predicted                                         
+0          118   0   6   1   0   5   3   0   4   0
+1            0  67   2   0   2   0   1   0   0   1
+2            0   0  35   0   0   0   2   0   0   0
+3            0   0   1  24   0   4   0   0   2   0
+4            0   0   1   1  27   1   0   1   0   1
+5            0   0   0   1   0  11   0   0   0   0
+6            0   1   0   0   0   2  40   0   2   0
+7            0   0   2   1   1   0   0  34   0   5
+8            0   0   2   0   0   3   0   0  34   0
+9            1   0   1   1   4   0   0   1   2  41</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The test error is 0.122 for Euclidean distance and 0.138 for Manhattan distance. The most frequent individual confusion is a true 2 predicted as 0: seven images under Euclidean distance and six under Manhattan distance. Other frequent errors include 5 predicted as 0 or 3, 9 predicted as 7, and 4 predicted as 9. These are counts for this test set, whose digit classes have different sample sizes.</p>
+<p><strong>c.&nbsp;Inspect mistakes and compare predictions.</strong> We display the first three Euclidean errors, keeping the lecture’s image orientation.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset sync-code-panels" data-group="homework-05-language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false" href="">Python</a></li></ul>
+<div class="tab-content sync-code-panels" data-group="homework-05-language">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>incorrect <span class="ot">&lt;-</span> <span class="fu">which</span>(y_hat[, <span class="dv">1</span>] <span class="sc">!=</span> y_test)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>old_par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> incorrect) {</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image</span>(<span class="fu">zip2image</span>(zip.test, i), <span class="at">col =</span> <span class="fu">gray</span>(<span class="dv">256</span><span class="sc">:</span><span class="dv">0</span><span class="sc">/</span><span class="dv">256</span>), <span class="at">zlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"True:"</span>, y_test[i], <span class="st">"Predicted:"</span>, y_hat[i, <span class="dv">1</span>]))</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "digit  6  taken"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "digit  2  taken"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "digit  4  taken"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="homework-05_files/figure-html/hw5-q4-images-r-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(old_par)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Different predictions:"</span>, <span class="fu">sum</span>(y_hat[, <span class="dv">1</span>] <span class="sc">!=</span> y_hat[, <span class="dv">2</span>]), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Different predictions: 22 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="at">Euclidean_correct =</span> y_hat[, <span class="dv">1</span>] <span class="sc">==</span> y_test,</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">Manhattan_correct =</span> y_hat[, <span class="dv">2</span>] <span class="sc">==</span> y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Manhattan_correct
+Euclidean_correct FALSE TRUE
+            FALSE    58    3
+            TRUE     11  428</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>incorrect <span class="op">=</span> np.flatnonzero(y_hat[:, <span class="dv">0</span>] <span class="op">!=</span> y_test)[:<span class="dv">3</span>]</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">3</span>))</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> incorrect[l]</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, l <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    plt.imshow(zip_test[i, <span class="dv">1</span>:].reshape(<span class="dv">16</span>, <span class="dv">16</span>), cmap<span class="op">=</span><span class="st">"gray_r"</span>,</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>               vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">1</span>, interpolation<span class="op">=</span><span class="st">"nearest"</span>)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"True: </span><span class="sc">{</span>y_test[i]<span class="sc">}</span><span class="ss"> Predicted: </span><span class="sc">{</span>y_hat[i, <span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="homework-05_files/figure-html/hw5-q4-images-python-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Different predictions:"</span>, np.<span class="bu">sum</span>(y_hat[:, <span class="dv">0</span>] <span class="op">!=</span> y_hat[:, <span class="dv">1</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Different predictions: 22</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show the solution code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.crosstab(pd.Series(y_hat[:, <span class="dv">0</span>] <span class="op">==</span> y_test, name<span class="op">=</span><span class="st">"Euclidean correct"</span>),</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>                  pd.Series(y_hat[:, <span class="dv">1</span>] <span class="op">==</span> y_test, name<span class="op">=</span><span class="st">"Manhattan correct"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Manhattan correct  False  True 
+Euclidean correct              
+False                 58      3
+True                  11    428</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>These images are test rows 4, 13, and 14, with true labels 6, 2, and 4, but predicted labels 0, 0, and 7. The 6 has a rounded lower loop, the 2 has an unusually curved outline, and the 4 lacks a typical horizontal crossbar. These shapes make pixel-distance mistakes plausible, even when a person can recognize the digit. Visual recognition also uses information about handwriting that this distance rule does not explicitly represent.</p>
+<p>The methods disagree on 22 predicted labels. Euclidean distance is correct and Manhattan distance is wrong on 11 images; the reverse happens on three. On eight additional images, both are wrong but predict different digits. Thus, similar total errors can hide different mistakes. Euclidean distance has the smaller error on this split, but this comparison does not establish that it will always be better.</p>
+</section>
+</section>
+<section id="question-5-create-a-plot-formatting-skill" class="level2">
+<h2 class="anchored" data-anchor-id="question-5-create-a-plot-formatting-skill">Question 5: Create a plot-formatting skill</h2>
+<section id="original-question-4" class="level3">
+<h3 class="anchored" data-anchor-id="original-question-4">Original question</h3>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Create a short <code>SKILL.md</code> file for improving the formatting of STAT 432 homework plots. You may use AI to help write it.</p>
+<ol type="a">
+<li><p>Include a title, a description, and a few formatting rules. The description should limit the skill to STAT 432 homework plot improvements and require an explicit request to use it. Your rules should address margins, titles, axes, labels, colors, and sizes for plots produced in R or Python. Keep them portable: do not refer to specific homework questions.</p></li>
+<li><p>Ask your agent to install the skill. Explicitly call it to improve the plot from Question 1, then compare the original and revised versions. Do you like the changes? You may revise the skill and test it a couple more times, or uninstall it if it remains unhelpful.</p></li>
+<li><p>Append your final <code>SKILL.md</code> content to your submission and briefly explain your choices and experience.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="solution-4" class="level3">
+<h3 class="anchored" data-anchor-id="solution-4">Solution</h3>
+<p>There is no single correct visual style. The following is one possible <code>SKILL.md</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="an">name:</span><span class="co"> format-homework-plots</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> Use only when the user explicitly calls this skill to improve the formatting of a STAT 432 homework plot.</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="fu"># STAT 432 Plot Formatting</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Preserve the plotted data, calculations, and statistical meaning.</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Leave enough margin for titles, axis labels, tick labels, and legends without clipping.</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use a short, informative title.</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Label axes clearly, include units when relevant, and use readable tick spacing and labels.</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use a colorblind-friendly palette and distinguish curves with line styles when helpful.</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Start with a 6.5 by 4.5 inch figure, 12-point labels, and a 14-point title; adjust for multiple panels.</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Apply these rules to the existing R or Python plotting code.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The title identifies the skill, and the description limits both its scope and when it should be used. The rules express reusable formatting preferences without referring to an individual homework question. Figure and font sizes provide a starting point that can be revised after viewing the result.</p>
+<p>Save the file as <code>format-homework-plots/SKILL.md</code> and ask your agent to install it. An explicit test request is: “Use <code>format-homework-plots</code> to improve the formatting of my Question 1 plot.”</p>
+<p>Compare the original and revised plots in your report. Describe the actual changes, whether they make the plot easier to read, and which preferences you revised or kept. Keeping, revising, or uninstalling the skill can all be reasonable outcomes; the explanation should reflect your own test.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
