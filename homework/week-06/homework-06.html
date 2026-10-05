@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homework 06</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      line-height: 1.6;
+    }
+    h1, h2, h3 {
+      color: #1c1c1c;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #f3f3f3;
+      padding: 0.1rem 0.3rem;
+    }
+    pre {
+      white-space: pre-wrap;
+      background: #f7f7f7;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      overflow-x: auto;
+    }
+    ul {
+      margin-top: 0.5rem;
+    }
+    .placeholder {
+      color: #666;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h1>Homework 06</h1>
+
+  <h2>Question 1: Compare KNN and logistic regression</h2>
+  <p>Use <code>data/breast-cancer.csv</code> ...</p>
+  <p>The simplest workflow is:</p>
+  <ul>
+    <li>Load the data.</li>
+    <li>Split into training and test with a fixed random seed.</li>
+    <li>Compute the training means and standard deviations for the three predictors.</li>
+    <li>Standardize train and test using the same values.</li>
+    <li>Fit logistic regression and KNN for each <em>k</em>.</li>
+    <li>Predict probabilities on the test set.</li>
+    <li>Compute ROC curves and AUC values.</li>
+    <li>Compare the AUC values and pick the strongest test model.</li>
+  </ul>
+
+  <pre><code>import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import roc_curve, roc_auc_score
+
+# Load data
+path = "data/breast-cancer.csv"
+df = pd.read_csv(path)
+
+rng = np.random.default_rng(432)
+train_idx = rng.choice(df.index, size=int(0.7 * len(df)), replace=False)
+train = df.loc[train_idx].copy()
+test = df.drop(train_idx).copy()
+
+predictors = ["mean_radius", "mean_texture", "mean_smoothness"]
+X_train = train[predictors].copy()
+X_test = test[predictors].copy()
+
+mean = X_train.mean()
+sd = X_train.std(ddof=1)
+X_train = (X_train - mean) / sd
+X_test = (X_test - mean) / sd
+
+y_train = train["y"].to_numpy()
+y_test = test["y"].to_numpy()
+
+logit = LogisticRegression(C=np.inf, solver="lbfgs", fit_intercept=True)
+logit.fit(X_train, y_train)
+logit_prob = logit.predict_proba(X_test)[:, 1]
+
+k_values = [5, 15, 25, 35, 45]
+probs = {}
+for k in k_values:
+    knn = KNeighborsClassifier(n_neighbors=k, weights="uniform", metric="euclidean")
+    knn.fit(X_train, y_train)
+    probs[k] = knn.predict_proba(X_test)[:, 1]
+
+all_probs = [logit_prob] + [probs[k] for k in k_values]
+model_names = ["Logistic regression"] + [f"KNN k={k}" for k in k_values]
+aucs = [roc_auc_score(y_test, p) for p in all_probs]
+
+print(pd.DataFrame({"Model": model_names, "Test AUC": aucs}).round(4))
+</code></pre>
+
+  <p>The usual outcome is that logistic regression performs very well and often has the highest test AUC. KNN improves as <em>k</em> increases, but very small neighborhoods are noisy. When the goal is ranking new observations by malignant probability, the model with the best test AUC is the one I would prefer.</p>
+
+  <h2>Question 2: Training and test ROC curves</h2>
+  <p>Use the same data, split, and standardization as in Question 1. Fit KNN with Euclidean distance, equal neighbor weights, and <em>k</em> in {1, 3, 5, 10, 20}. Use each fitted model to estimate probabilities for both the training and test observations. For training predictions, include each observation itself among its <em>k</em> nearest neighbors.</p>
+
+  <pre><code>import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import roc_curve, roc_auc_score
+
+path = "data/breast-cancer.csv"
+df = pd.read_csv(path)
+rng = np.random.default_rng(432)
+train_idx = rng.choice(df.index, size=int(0.7 * len(df)), replace=False)
+train = df.loc[train_idx].copy()
+test = df.drop(train_idx).copy()
+
+predictors = ["mean_radius", "mean_texture", "mean_smoothness"]
+X_train = train[predictors].copy()
+X_test = test[predictors].copy()
+
+mean = X_train.mean()
+sd = X_train.std(ddof=1)
+X_train = (X_train - mean) / sd
+X_test = (X_test - mean) / sd
+
+y_train = train["y"].to_numpy()
+y_test = test["y"].to_numpy()
+
+k_values = [1, 3, 5, 10, 20]
+train_auc = []
+test_auc = []
+
+fig, axes = plt.subplots(2, 3, figsize=(10, 7))
+axes = axes.ravel()
+
+for idx, k in enumerate(k_values):
+    knn = KNeighborsClassifier(n_neighbors=k, weights="uniform", metric="euclidean")
+    knn.fit(X_train, y_train)
+
+    p_train = knn.predict_proba(X_train)[:, 1]
+    p_test = knn.predict_proba(X_test)[:, 1]
+
+    train_auc.append(roc_auc_score(y_train, p_train))
+    test_auc.append(roc_auc_score(y_test, p_test))
+
+    fpr_train, tpr_train, _ = roc_curve(y_train, p_train)
+    fpr_test, tpr_test, _ = roc_curve(y_test, p_test)
+
+    ax = axes[idx]
+    ax.plot(fpr_train, tpr_train, color="#0072B2", lw=2, label=f"Training AUC={train_auc[-1]:.4f}")
+    ax.plot(fpr_test, tpr_test, color="#D55E00", lw=2, ls="--", label=f"Test AUC={test_auc[-1]:.4f}")
+    ax.plot([0, 1], [0, 1], color="gray", ls=":")
+    ax.set_title(f"k = {k}")
+    ax.set_xlim([0, 1])
+    ax.set_ylim([0, 1])
+    ax.set_xlabel("False positive rate")
+    ax.set_ylabel("True positive rate")
+    ax.legend(loc="lower right", frameon=False, fontsize=8)
+
+axes[-1].axis("off")
+plt.tight_layout()
+plt.show()
+
+print(pd.DataFrame({"k": k_values, "Training AUC": train_auc, "Test AUC": test_auc}).round(4))
+</code></pre>
+
+  <p>The pattern is the usual one for KNN: at <em>k = 1</em>, the training AUC is almost perfect because each point predicts itself. The test AUC is much lower because it is judged on new observations. As <em>k</em> increases, the training-test gap generally shrinks because the model becomes less flexible and less likely to memorize the training data. If <em>k</em> is too large, the model may smooth over local structure and lose performance.</p>
+
+  <h2>Question 3: Peer evaluation of Homework 5</h2>
+  <p>You will receive two Homework 5 submissions to review ...</p>
+
+  <h3>1. Identify the mistake or item for improvement</h3>
+  <p>Example:</p>
+  <ul>
+    <li>Report: Student A, Homework 5</li>
+    <li>Question: Question 2</li>
+    <li>Issue: The code uses a different split than the one used by the other method, so the comparison is unfair.</li>
+    <li>Why this matters: the methods should be compared on the same data and the same train/test split.</li>
+  </ul>
+
+  <h3>2. Explain your assessment</h3>
+  <p class="placeholder">[Leave this section blank and complete it yourself without AI assistance.]</p>
+
+  <h3>3. Provide a correction</h3>
+  <p>Write a short corrected answer to the selected question. Include the corrected code, corrected interpretation, or corrected figure if needed. A strong correction should explain what the original issue was, what the correct result should be, and why that correction is the right interpretation.</p>
+
+  <p>After completing your review, open a GitHub Issue in the repository containing the report you selected. Include the report and question reviewed, the assessment, a revision plan, and a link to the GitHub Issue in your Homework 6 answer.</p>
+</body>
+</html>
