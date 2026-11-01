@@ -2470,7 +2470,7 @@ Experimental version at https://github.com/teazrq/RLT</code></pre>
 <span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">mtry =</span> mtry,</span>
 <span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">nmin =</span> nmin,</span>
 <span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">importance =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">replacement =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">replacement =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">resample.prob =</span> <span class="dv">1</span>,</span>
 <span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">print.summary =</span> <span class="dv">0</span></span>
 <span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    )</span>
@@ -2501,7 +2501,7 @@ Experimental version at https://github.com/teazrq/RLT</code></pre>
 <span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>                   bootstrap_samples)</span>
 <span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>}, <span class="fu">numeric</span>(<span class="dv">1</span>))</span>
 <span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>selected <span class="ot">&lt;-</span> grid[<span class="fu">which.min</span>(grid<span class="sc">$</span>oob), , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>selected <span class="ot">&lt;-</span> grid[<span class="fu">order</span>(grid<span class="sc">$</span>oob, grid<span class="sc">$</span>mtry, <span class="sc">-</span>grid<span class="sc">$</span>nmin)[<span class="dv">1</span>], , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
 <span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>default_mtry <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="dv">1</span>, <span class="fu">as.integer</span>(<span class="fu">ncol</span>(train_pc) <span class="sc">/</span> <span class="dv">3</span>))</span>
 <span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>default_nmin <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="dv">1</span>, <span class="fu">as.integer</span>(<span class="fu">log</span>(<span class="fu">nrow</span>(train_pc))))</span>
 <span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>default_row <span class="ot">&lt;-</span> <span class="fu">which</span>(grid<span class="sc">$</span>mtry <span class="sc">==</span> default_mtry <span class="sc">&amp;</span> grid<span class="sc">$</span>nmin <span class="sc">==</span> default_nmin)</span>
@@ -2527,12 +2527,12 @@ Experimental version at https://github.com/teazrq/RLT</code></pre>
 <span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Default RLT OOB error: %.5f</span><span class="sc">\n</span><span class="st">&quot;</span>, default_oob))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Default RLT OOB error: 0.03058</code></pre>
+<pre><code>Default RLT OOB error: 0.03364</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Selected setting: mtry = %s, nmin = %s, OOB error = %.5f</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>            selected<span class="sc">$</span>mtry, selected<span class="sc">$</span>nmin, selected<span class="sc">$</span>oob))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Selected setting: mtry = 2, nmin = 10, OOB error = 0.01835</code></pre>
+<pre><code>Selected setting: mtry = 2, nmin = 10, OOB error = 0.02141</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(grid, <span class="at">digits =</span> <span class="dv">5</span>,</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> <span class="st">&quot;Grid search over mtry and node size using OOB misclassification rate.&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2550,7 +2550,7 @@ Experimental version at https://github.com/teazrq/RLT</code></pre>
 <tr class="odd">
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.03058</td>
+<td style="text-align: right;">0.02446</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">4</td>
@@ -2565,37 +2565,37 @@ Experimental version at https://github.com/teazrq/RLT</code></pre>
 <tr class="even">
 <td style="text-align: right;">10</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.03670</td>
+<td style="text-align: right;">0.03364</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">0.02752</td>
+<td style="text-align: right;">0.02446</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">0.02752</td>
+<td style="text-align: right;">0.02141</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">0.03058</td>
+<td style="text-align: right;">0.03364</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">10</td>
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">0.03670</td>
+<td style="text-align: right;">0.03364</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">10</td>
-<td style="text-align: right;">0.01835</td>
+<td style="text-align: right;">0.02141</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">10</td>
-<td style="text-align: right;">0.02752</td>
+<td style="text-align: right;">0.03058</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">6</td>
@@ -2605,27 +2605,27 @@ Experimental version at https://github.com/teazrq/RLT</code></pre>
 <tr class="even">
 <td style="text-align: right;">10</td>
 <td style="text-align: right;">10</td>
+<td style="text-align: right;">0.03364</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0.03364</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0.04281</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">20</td>
 <td style="text-align: right;">0.03976</td>
 </tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">0.03670</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">0.03670</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">0.03670</td>
-</tr>
 <tr class="even">
 <td style="text-align: right;">10</td>
 <td style="text-align: right;">20</td>
-<td style="text-align: right;">0.04587</td>
+<td style="text-align: right;">0.04281</td>
 </tr>
 </tbody>
 </table>
@@ -2649,83 +2649,83 @@ Experimental version at https://github.com/teazrq/RLT</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">PC1</td>
-<td style="text-align: right;">0.3103</td>
+<td style="text-align: right;">0.3227</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">PC2</td>
-<td style="text-align: right;">0.4568</td>
+<td style="text-align: right;">0.4282</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PC3</td>
-<td style="text-align: right;">0.0837</td>
+<td style="text-align: right;">0.0828</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">PC4</td>
-<td style="text-align: right;">0.0551</td>
+<td style="text-align: right;">0.0518</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PC5</td>
-<td style="text-align: right;">0.0912</td>
+<td style="text-align: right;">0.0837</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">PC6</td>
-<td style="text-align: right;">0.0821</td>
+<td style="text-align: right;">0.0795</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PC7</td>
-<td style="text-align: right;">0.0571</td>
+<td style="text-align: right;">0.0588</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">PC8</td>
-<td style="text-align: right;">0.0294</td>
+<td style="text-align: right;">0.0377</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PC9</td>
-<td style="text-align: right;">0.0349</td>
+<td style="text-align: right;">0.0303</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">PC10</td>
-<td style="text-align: right;">0.0376</td>
+<td style="text-align: right;">0.0403</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PC11</td>
-<td style="text-align: right;">0.0547</td>
+<td style="text-align: right;">0.0563</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">PC12</td>
-<td style="text-align: right;">0.0441</td>
+<td style="text-align: right;">0.0471</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PC13</td>
-<td style="text-align: right;">0.0358</td>
+<td style="text-align: right;">0.0370</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">PC14</td>
-<td style="text-align: right;">0.0374</td>
+<td style="text-align: right;">0.0405</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PC15</td>
-<td style="text-align: right;">0.0285</td>
+<td style="text-align: right;">0.0265</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">PC16</td>
-<td style="text-align: right;">0.0337</td>
+<td style="text-align: right;">0.0368</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PC17</td>
-<td style="text-align: right;">0.0258</td>
+<td style="text-align: right;">0.0321</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">PC18</td>
-<td style="text-align: right;">0.0449</td>
+<td style="text-align: right;">0.0436</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PC19</td>
-<td style="text-align: right;">0.0246</td>
+<td style="text-align: right;">0.0260</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">PC20</td>
-<td style="text-align: right;">0.0331</td>
+<td style="text-align: right;">0.0307</td>
 </tr>
 </tbody>
 </table>
@@ -2749,9 +2749,9 @@ Experimental version at https://github.com/teazrq/RLT</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">1</td>
-<td style="text-align: right;">101</td>
+<td style="text-align: right;">102</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">6</td>
@@ -2761,9 +2761,9 @@ Experimental version at https://github.com/teazrq/RLT</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">7</td>
-<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">106</td>
+<td style="text-align: right;">105</td>
 </tr>
 </tbody>
 </table>
@@ -2776,8 +2776,8 @@ Experimental version at https://github.com/teazrq/RLT</code></pre>
 <section id="results" class="level3">
 <h3 class="anchored" data-anchor-id="results">Results</h3>
 <p>The default RLT forest uses the package defaults, <code>mtry = 6</code> and <code>nmin = 5</code> for this training-set size. Its OOB misclassification rate is 0.03058, taken from the matching grid setting.</p>
-<p>The grid search selects <code>mtry = 2</code> and <code>nmin = 10</code>, with OOB misclassification rate 0.01835. The table reports the OOB error for every grid point.</p>
-<p>RLT clamps node size to at least two, so the grid’s requested <code>nmin = 1</code> is fitted with <code>nmin = 2</code>. The selected forest’s OOB permutation importance is largest for PC2 (0.4568) and PC1 (0.3103); PC3 is a distant third (0.0837), and the remaining PCs have smaller values. Thus, the first two components carry most of the predictive signal used by this forest. Permutation importance measures predictive contribution in this fitted forest; it does not establish that a component is intrinsically more meaningful.</p>
+<p>The best OOB error is 0.02141, tied between two settings. I break the tie by choosing the smaller <code>mtry</code>, selecting <code>mtry = 2</code> and <code>nmin = 10</code>. The table reports the OOB error for every grid point.</p>
+<p>RLT clamps node size to at least two, so the grid’s requested <code>nmin = 1</code> is fitted with <code>nmin = 2</code>. The selected forest’s OOB permutation importance is largest for PC2 and PC1, with PC3 and the remaining components much smaller. Permutation importance measures predictive contribution in this fitted forest; it does not establish that a component is intrinsically more meaningful.</p>
 <p>The selected model misclassifies 5 of 317 held-out observations, for a test misclassification rate of 0.01577. The confusion matrix below is the final assessment only; test labels are not used in PCA fitting, tuning, or model selection.</p>
 <p>The predicted class mapping and test-label comparison are performed only after the selected forest has been fixed. The test error and confusion matrix in the rendered report provide an independent assessment of the selected model.</p>
 </section>
